@@ -69,7 +69,7 @@ public class AntiKillAbuseListener implements Listener {
                 // Ejecutar comandos en caso de abuso
                 executeAbuseCommands(killer);
 
-                // Reiniciar el contador de asesinatos
+                // Reiniciar el contador de asesinatos.
                 killCounts.put(killerName, 0);
             }
         }
