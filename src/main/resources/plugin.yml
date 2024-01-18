@@ -1,0 +1,17 @@
+name: BetterPvP
+version: '${project.version}'
+main: github.betterpvp.BetterPvP
+api-version: '1.13'
+author: srsstaff_tv, sstudios, 1vcb
+website: https://sstudiosdev.github.io/
+depend: [Vault, WorldGuard]
+
+commands:
+  betterpvp:
+    description: Main command for BetterPvP
+    usage: /betterpvp <subcommand>
+
+permissions:
+  betterpvp.reload:
+    description: Permission to reload the configuration
+    default: op
