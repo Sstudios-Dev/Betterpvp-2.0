@@ -25,6 +25,11 @@ public class nopvp implements CommandExecutor {
 
         Player player = (Player) sender;
 
+        if (!player.hasPermission("betterpvp.nopvp")) {
+            player.sendMessage("No tienes permisos para ejecutar este comando.");
+            return true;
+        }
+
         if (args.length == 1) {
             if (args[0].equalsIgnoreCase("on")) {
                 noPvPEnabled = true;
@@ -43,4 +48,5 @@ public class nopvp implements CommandExecutor {
     }
 
     // Otros métodos y funciones relacionados con el manejo de eventos PvP...
+
 }
