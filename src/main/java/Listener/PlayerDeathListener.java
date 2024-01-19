@@ -24,12 +24,11 @@ public class PlayerDeathListener implements Listener {
 
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event) {
+        plugin.reloadConfig();
+        
         // Verificar si el causante de la muerte fue otro jugador
         if (event.getEntity().getKiller() instanceof Player) {
             Player killer = event.getEntity().getKiller();
-
-            // Recargar la configuración antes de obtener los valores
-            plugin.reloadConfig();
 
             // Lógica para otorgar dinero usando Vault
             if (setupEconomy()) {
