@@ -16,6 +16,10 @@ commands:
     usage: /betterpvp <subcommand>
 
 permissions:
+  betterpvp.nopvp:
+    description: Command to enable/disable PvP and activates
+    default: false
+    
   betterpvp.reload:
     description: Permission to reload the configuration
     default: op
