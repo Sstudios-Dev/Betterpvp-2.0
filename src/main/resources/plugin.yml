@@ -7,6 +7,10 @@ website: https://sstudiosdev.github.io/
 depend: [Vault, WorldGuard]
 
 commands:
+  nopvp:
+    description: deactivate your pvp and activate it
+    usage: /nopvp
+
   betterpvp:
     description: Main command for BetterPvP
     usage: /betterpvp <subcommand>
