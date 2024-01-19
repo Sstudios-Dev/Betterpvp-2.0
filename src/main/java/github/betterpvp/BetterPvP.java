@@ -70,6 +70,7 @@ public final class BetterPvP extends JavaPlugin {
 
     public void registerCommands() {
         this.getCommand("betterpvp").setExecutor(new reload(this));
+        this.getCommand("nopvp").setExecutor(new nopvp(this));
     }
 
     public void registerEvents() {
