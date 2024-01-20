@@ -17,13 +17,6 @@
 
 prefix: "&8[&3BetterPvP&8]"
 
-enablePluginByDefault: true
-
-worlds:
-  example1: true
-  example2: false
-  example3: true
-
 # ============================================================
 # |                        Messages                          |
 # ============================================================
