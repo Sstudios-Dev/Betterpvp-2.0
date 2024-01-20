@@ -53,8 +53,6 @@ public final class BetterPvP extends JavaPlugin {
         saveConfig();
 
         mycmd.sendMessage(ChatUtils.getColoredMessage("&3BetterPvP is being disabled this does not affect anything."));
-        mycmd.sendMessage(ChatUtils.getColoredMessage("&7Commands Saved Successfully"));
-        mycmd.sendMessage(ChatUtils.getColoredMessage("&7Modules saved Successfully"));
         mycmd.sendMessage(ChatUtils.getColoredMessage("&7Goodbye!"));
 
     }
