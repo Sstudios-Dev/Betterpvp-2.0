@@ -59,15 +59,6 @@ public final class BetterPvP extends JavaPlugin {
 
     }
 
-    public boolean isPluginEnableWorld(String worldName) {
-        return getConfig().getBoolean("worlds." + worldName, true);
-    }
-
-    public void setPluginEnabledInWorld(String worldName, boolean enable) {
-        getConfig().set("worlds." + worldName, enable);
-        saveConfig();
-    }
-
     public void registerCommands() {
         this.getCommand("betterpvp").setExecutor(new reload(this));
         this.getCommand("nopvp").setExecutor(new nopvp(this));
