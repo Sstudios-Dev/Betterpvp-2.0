@@ -13,7 +13,7 @@ public class nopvp implements CommandExecutor {
 
     public nopvp(BetterPvP plugin) {
         this.plugin = plugin;
-        this.noPvPEnabled = false; // PvP deshabilitado por defecto
+        this.noPvPEnabled = false;
     }
 
     @Override
@@ -46,7 +46,5 @@ public class nopvp implements CommandExecutor {
 
         return true;
     }
-
-    // Otros métodos y funciones relacionados con el manejo de eventos PvP...
 
 }
