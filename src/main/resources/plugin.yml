@@ -1,25 +1,7 @@
 name: BetterPvP
 version: '${project.version}'
-main: github.betterpvp.BetterPvP
+main: io.github.sstudiosdev.BetterPvP
 api-version: '1.13'
-author: srsstaff_tv, sstudios, 1vcb
+author: srsstaff_tv, sstudios, 1vcb, pichema
 website: https://sstudiosdev.github.io/
 depend: [Vault, WorldGuard]
-
-commands:
-  nopvp:
-    description: deactivate your pvp and activate it
-    usage: /nopvp
-
-  betterpvp:
-    description: Main command for BetterPvP
-    usage: /betterpvp <subcommand>
-
-permissions:
-  betterpvp.nopvp:
-    description: Command to enable/disable PvP and activates
-    default: true
-
-  betterpvp.reload:
-    description: Permission to reload the configuration
-    default: op
