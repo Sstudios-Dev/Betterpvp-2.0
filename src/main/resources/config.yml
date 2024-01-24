@@ -4,16 +4,16 @@
 # | |_) |  __/ |_| ||  __/ |  |  __/ \ V /|  __/
 # |____/ \___|\__|\__\___|_|  |_|     \_/ |_|
 
-# Welcome to betterPvP configuration file
-# don't forget to support the creator by leaving a review on
-# spigot so that we can continue to maintain the plugin.
+# Welcome to BetterPvP configuration file.
+# Don't forget to support the creator by leaving a review on
+# Spigot so that we can continue to maintain the plugin.
 
 # ============================================================
 # |                        General                           |
 # ============================================================
 
-# General Module in this module there are essential settings of the plugin
-# for example, prefix and other basic settings.
+# General Module: This module contains essential settings of the plugin.
+# For example, prefix and other basic settings.
 
 prefix: "&8[&3BetterPvP&8]"
 
@@ -21,31 +21,33 @@ prefix: "&8[&3BetterPvP&8]"
 # |                        Messages                          |
 # ============================================================
 
-# Message module here you can translate all plugin messages.
+# Message Module: Here you can translate all plugin messages.
 # lang.yml will be available soon.
 
-no-permission: "&cSorry, but you %player_name%, do not have permission to execute this command."
+no-permission: "&cSorry, but you (%player_name%) do not have permission to execute this command."
 kill-reward: "&aYou have received %amount% for killing a player!"
 
 # ============================================================
 # |                        AntiKillAbuse                     |
 # ============================================================
 
-# AntiKills module in this module you will be able
-# to avoid that players are abusing by killing the same person several times.
+# AntiKills Module: In this module, you can prevent players from abusing
+# by killing the same person several times.
 
-enabled: true
-max-kill: 5
-time-limit: 300
+anti-kill-abuse:
+  enabled: true
+  max-kill: 5
+  time-limit: 300
 
-command-sanction:
-  - 'kick %player_name% &cKill Abuse Is Not Allowed!'
+  command-sanction:
+    - 'kick %player_name% &cKill Abuse Is Not Allowed!'
 
 # ============================================================
 # |                        Player Kills                      |
 # ============================================================
 
-# Player Kills module in this module you can configure
-# when a player kills another player.
+# Player Kills Module: In this module, you can configure
+# what happens when a player kills another player.
 
-money-reward: 10.0
+player-kills:
+  money-reward: 10.0
