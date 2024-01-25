@@ -41,7 +41,7 @@ public abstract class BaseCommand extends BukkitCommand {
      */
     protected boolean checkConsoleSender(CommandSender sender) {
         if (sender instanceof ConsoleCommandSender) {
-            sender.sendMessage(ChatColor.RED + "Solo jugadores");
+            sender.sendMessage(ChatColor.RED + "Players only");
             return false;
         }
         return true;
@@ -58,12 +58,12 @@ public abstract class BaseCommand extends BukkitCommand {
     @Override
     public boolean execute(CommandSender sender, String label, String[] args) {
         if (this.forPlayersOnly && sender instanceof ConsoleCommandSender) {
-            sender.sendMessage(ChatColor.RED + "¡Solo jugadores!");
+            sender.sendMessage(ChatColor.RED + "Players only!");
             return true;
         }
 
         if (this.getPermission() != null && !sender.hasPermission(this.getPermission())) {
-            sender.sendMessage(ChatColor.RED + "¡No tienes permisos!");
+            sender.sendMessage(ChatColor.RED + "You don't have permissions!");
             return true;
         }
 
@@ -95,7 +95,7 @@ public abstract class BaseCommand extends BukkitCommand {
      */
     protected boolean checkPlayer(CommandSender sender, Player player, String playerName) {
         if (player == null) {
-            sender.sendMessage(ChatColor.RED + "¡El jugador no está en línea!");
+            sender.sendMessage(ChatColor.RED + "The player is not online!");
             return false;
         }
         return true;
@@ -110,7 +110,7 @@ public abstract class BaseCommand extends BukkitCommand {
      */
     protected boolean checkNumber(CommandSender sender, String number) {
         if (!NumberUtils.isNumber(number)) {
-            sender.sendMessage(ChatColor.RED + "Es un número inválido.");
+            sender.sendMessage(ChatColor.RED + "It is an invalid number.");
             return false;
         }
         return true;
@@ -125,7 +125,7 @@ public abstract class BaseCommand extends BukkitCommand {
      */
     protected boolean checkPermission(CommandSender sender, String permission) {
         if (!sender.hasPermission(permission)) {
-            sender.sendMessage(ChatColor.RED + "¡No tienes permisos!");
+            sender.sendMessage(ChatColor.RED + "You don't have permissions!");
             return false;
         }
         return true;
