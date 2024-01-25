@@ -20,7 +20,6 @@ prefix: "&8[&3BetterPvP&8]"
 # ============================================================
 
 # Message Module: Here you can translate all plugin messages.
-# lang.yml will be available soon.
 
 no-permission: "&cSorry, but you (%player_name%) do not have permission to execute this command."
 kill-reward: "&aYou have received %amount% for killing a player!"
