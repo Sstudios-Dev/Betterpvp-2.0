@@ -78,6 +78,7 @@ public final class BetterPvP extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerDeathListener(this), this);
 
         CommandMapUtil.registerCommand(this, new BetterPvPReloadCommand(this));
+        CommandMapUtil.registerCommand(this, new BetterPvPNoPvPCommand(this));
     }
 
     /**
