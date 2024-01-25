@@ -114,7 +114,5 @@ public class EconomyManager {
     public boolean hasMinimumBalance(Player player, double amount) {
         return economy.has(player, amount);
     }
-
-    // Otros métodos y lógica relacionada con la economía...
-
+    
 }
