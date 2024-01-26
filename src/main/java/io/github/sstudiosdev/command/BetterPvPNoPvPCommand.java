@@ -25,8 +25,7 @@ public class BetterPvPNoPvPCommand extends BaseCommand {
             // Verificar permisos del jugador
             if (hasPermission(sender)) {
                 // Obtener el mensaje desde la configuración
-                String messageKey = "pvptoggle";
-                String pvpToggleMessage = betterPvP.getMainConfig().getString(messageKey, "&aPvP is now %status%.");
+                String pvpToggleMessage = betterPvP.getMainConfig().getString("pvptoggle");
 
                 // Reemplazar "%status%" con el estado proporcionado en el comando
                 pvpToggleMessage = pvpToggleMessage.replace("%status%", args[0]);
