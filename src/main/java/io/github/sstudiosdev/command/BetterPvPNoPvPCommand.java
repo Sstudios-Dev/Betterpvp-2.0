@@ -24,8 +24,15 @@ public class BetterPvPNoPvPCommand extends BaseCommand {
         if (args.length == 1 && (args[0].equalsIgnoreCase("on") || args[0].equalsIgnoreCase("off"))) {
             // Verificar permisos del jugador
             if (hasPermission(sender)) {
-                // Enviar mensaje de éxito
-                sender.sendMessage(ChatColorUtil.colorize(BetterPvP.prefix + " &aPvP is now " + args[0] + "."));
+                // Obtener el mensaje desde la configuración
+                String messageKey = "pvptoggle";
+                String pvpToggleMessage = betterPvP.getMainConfig().getString(messageKey, "&aPvP is now %status%.");
+
+                // Reemplazar "%status%" con el estado proporcionado en el comando
+                pvpToggleMessage = pvpToggleMessage.replace("%status%", args[0]);
+
+                // Enviar el mensaje de éxito
+                sender.sendMessage(ChatColorUtil.colorize(BetterPvP.prefix + " " + pvpToggleMessage));
             } else {
                 // Enviar mensaje de falta de permisos
                 sendNoPermissionMessage(sender);
