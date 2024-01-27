@@ -13,6 +13,7 @@ public class PlayerDeathListener implements Listener {
     private final BetterPvP betterPvP;
     private double defaultReward;
     private String killMessage;
+    private boolean rewardsEnabled;
 
     public PlayerDeathListener(BetterPvP betterPvP) {
         this.betterPvP = betterPvP;
@@ -25,6 +26,7 @@ public class PlayerDeathListener implements Listener {
      * Cargar la configuración relacionada con las recompensas por muerte de jugador.
      */
     private void loadConfig() {
+        rewardsEnabled = betterPvP.getMainConfig().getBoolean("player-kills.enabled");
         defaultReward = betterPvP.getMainConfig().getDouble("player-kills.money-reward");
         killMessage = betterPvP.getMainConfig().getString("kill-reward");
     }
@@ -36,6 +38,11 @@ public class PlayerDeathListener implements Listener {
      */
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event) {
+        // Verificar si las recompensas están habilitadas
+        if (!rewardsEnabled) {
+            return;
+        }
+
         // Verificar si el causante de la muerte fue otro jugador
         if (event.getEntity().getKiller() != null) {
             Player killer = event.getEntity().getKiller();
