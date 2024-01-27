@@ -48,7 +48,15 @@ anti-kill-abuse:
 # what happens when a player kills another player.
 
 player-kills:
+  enabled: true
   money-reward: 10.0
+
+# ============================================================
+# |                        Nopvp system                     |
+# ============================================================
+
+# this module contains all the configuration of the /nopvp <on/off> command.
+# this is one of the main modules of the plugins
 
 # End Config.yml
 # Thank you pichema ❤
