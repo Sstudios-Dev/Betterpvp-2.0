@@ -93,6 +93,8 @@ public final class BetterPvP extends JavaPlugin {
         sendMessageToConsole("   &3|_____ /   ");
         sendMessageToConsole("");
         sendMessageToConsole("&7Commands successfully loaded");
+        sendMessageToConsole("&7Discord: https://discord.gg/eRxezh3hY8");
+        sendMessageToConsole("&7Website: https://sstudiosdev.github.io/");
         sendMessageToConsole("&7Thank you &c pichema");
     }
 
