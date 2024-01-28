@@ -56,7 +56,7 @@ player-kills:
 # ============================================================
 
 # this module contains all the configuration of the /nopvp <on/off> command.
-# this is one of the main modules of the plugins
+# this is one of the main modules of the plugins.
 
 # End Config.yml
 # Thank you pichema ❤
