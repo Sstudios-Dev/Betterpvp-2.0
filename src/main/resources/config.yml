@@ -27,7 +27,7 @@ prefix: "&8[&3BetterPvP&8]"
 
 no-permission: "&cSorry, but you (%player_name%) do not have permission to execute this command."
 kill-reward: "&aYou have received %amount% for killing a player!"
-pvptoggle: "&aPvP is now %status%."
+pvptoggle: "&aPvP is now %status%!"
 
 # ============================================================
 # |                        AntiKillAbuse                     |
