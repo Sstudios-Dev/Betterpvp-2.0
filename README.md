@@ -9,6 +9,6 @@ WebSite: https://sstudiosdev.github.io/
 
 Spigot: https://www.spigotmc.org/members/sstudios-team.1957112/
 
-
+https://contrib.rocks/image?repo=Sstudios-Dev/Betterpvp-2.0
 
 [staFF6773, 1vcb, pichema, akit] ❤
