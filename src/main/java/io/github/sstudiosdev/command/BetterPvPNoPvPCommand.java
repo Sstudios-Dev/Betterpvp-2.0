@@ -6,16 +6,27 @@ import io.github.sstudiosdev.util.command.BaseCommand;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.plugin.PluginManager;
 
 import java.util.ArrayList;
 
-public class BetterPvPNoPvPCommand extends BaseCommand {
+public class BetterPvPNoPvPCommand extends BaseCommand implements Listener {
     private final BetterPvP betterPvP;
+
+    private boolean pvpEnabled = true; // Estado predeterminado: PvP habilitado
 
     public BetterPvPNoPvPCommand(final BetterPvP betterPvP) {
         // Establecer el nombre del comando y sus permisos
         super("nopvp", new ArrayList<>(), "betterpvp.nopvp", true);
         this.betterPvP = betterPvP;
+
+        // Registrar el evento para manejar el daño
+        PluginManager pluginManager = betterPvP.getServer().getPluginManager();
+        pluginManager.registerEvents(this, betterPvP);
     }
 
     @Override
@@ -29,6 +40,9 @@ public class BetterPvPNoPvPCommand extends BaseCommand {
 
                 // Reemplazar "%status%" con el estado proporcionado en el comando
                 pvpToggleMessage = pvpToggleMessage.replace("%status%", args[0]);
+
+                // Actualizar el estado del PvP
+                pvpEnabled = args[0].equalsIgnoreCase("on");
 
                 // Enviar el mensaje de éxito
                 sender.sendMessage(ChatColorUtil.colorize(BetterPvP.prefix + " " + pvpToggleMessage));
@@ -64,5 +78,17 @@ public class BetterPvPNoPvPCommand extends BaseCommand {
         noPermissionMessage = noPermissionMessage.replace("%player_name%", sender.getName());
         // Enviar el mensaje de falta de permisos
         sender.sendMessage(ChatColorUtil.colorize(BetterPvP.prefix + " " + noPermissionMessage));
+    }
+
+    // Manejar el evento de daño
+    @EventHandler
+    public void onEntityDamage(EntityDamageEvent event) {
+        if (event.getEntity() instanceof Player) {
+            // Verificar si el PvP está desactivado
+            if (!pvpEnabled && event.getCause() == EntityDamageEvent.DamageCause.ENTITY_ATTACK) {
+                // Cancelar el evento si el PvP está desactivado y la causa del daño es un ataque
+                event.setCancelled(true);
+            }
+        }
     }
 }
