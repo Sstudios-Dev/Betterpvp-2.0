@@ -5,7 +5,7 @@ Made By: SStudios
 
 Discord: https://discord.gg/eRxezh3hY8
 
-WebSite: https://sstudiosdev.github.io/
+WebSite: https://sstudiosdev.is-a.dev/
 
 Spigot: https://www.spigotmc.org/members/sstudios-team.1957112/
 
