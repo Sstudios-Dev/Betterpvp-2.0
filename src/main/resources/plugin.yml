@@ -3,5 +3,5 @@ version: '${project.version}'
 main: io.github.sstudiosdev.BetterPvP
 api-version: '1.13'
 author: srsstaff_tv, sstudios, 1vcb, pichema
-website: https://sstudiosdev.github.io/
+website: https://sstudiosdev.is-a.dev/
 depend: [Vault, PlaceholderAPI]
