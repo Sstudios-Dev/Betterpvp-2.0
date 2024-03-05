@@ -266,4 +266,15 @@ public class Config {
 
         insert(path, locationToAdd);
     }
+
+    /**
+     * Obtiene un valor largo asociado a una clave en la configuración.
+     *
+     * @param path           La clave a consultar.
+     * @param defaultValue   El valor predeterminado si la clave no se encuentra.
+     * @return               El valor largo asociado a la clave, o el valor predeterminado si la clave no se encuentra.
+     */
+    public long getLong(final String path, final long defaultValue) {
+        return bukkitConfiguration.getLong(path, defaultValue);
+    }
 }
