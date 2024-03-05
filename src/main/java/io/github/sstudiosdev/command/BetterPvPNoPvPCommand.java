@@ -13,9 +13,12 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.plugin.PluginManager;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class BetterPvPNoPvPCommand extends BaseCommand implements Listener {
     private final BetterPvP betterPvP;
+    private final Map<Player, Long> cooldowns = new HashMap<>();
 
     private boolean pvpEnabled = true; // Estado predeterminado: PvP habilitado
 
@@ -35,6 +38,19 @@ public class BetterPvPNoPvPCommand extends BaseCommand implements Listener {
         if (args.length == 1 && (args[0].equalsIgnoreCase("on") || args[0].equalsIgnoreCase("off"))) {
             // Verificar permisos del jugador
             if (hasPermission(sender)) {
+                // Verificar cooldown solo si se activa el PvP
+                if (args[0].equalsIgnoreCase("on") && sender instanceof Player) {
+                    Player player = (Player) sender;
+                    long currentTime = System.currentTimeMillis();
+                    long defaultCooldown = 60L; // Valor predeterminado en segundos
+                    long cooldownTime = betterPvP.getMainConfig().getLong("cooldown.nopvp_cooldown", defaultCooldown) * 1000;
+                    if (cooldowns.containsKey(player) && cooldowns.get(player) + cooldownTime > currentTime) {
+                        sender.sendMessage(ChatColor.RED + "You must wait before using this command again.");
+                        return;
+                    }
+                    cooldowns.put(player, currentTime);
+                }
+
                 // Obtener el mensaje desde la configuración
                 String pvpToggleMessage = betterPvP.getMainConfig().getString("pvptoggle");
 
