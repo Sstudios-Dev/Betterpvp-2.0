@@ -1,6 +1,8 @@
 package io.github.sstudiosdev;
 
+import io.github.sstudiosdev.command.BetterPvPNoPvPCommand;
 import io.github.sstudiosdev.command.BetterPvPReloadCommand;
+import io.github.sstudiosdev.command.PvPWorldCommand;
 import io.github.sstudiosdev.listener.AntiKillAbuseListener;
 import io.github.sstudiosdev.listener.PlayerDeathListener;
 import io.github.sstudiosdev.util.ChatColorUtil;
@@ -79,6 +81,7 @@ public final class BetterPvP extends JavaPlugin {
 
         CommandMapUtil.registerCommand(this, new BetterPvPReloadCommand(this));
         CommandMapUtil.registerCommand(this, new BetterPvPNoPvPCommand(this));
+        CommandMapUtil.registerCommand(this, new PvPWorldCommand(this));
     }
 
     /**
@@ -93,8 +96,6 @@ public final class BetterPvP extends JavaPlugin {
         sendMessageToConsole("   &3|_____ /   ");
         sendMessageToConsole("");
         sendMessageToConsole("&7Commands successfully loaded");
-        sendMessageToConsole("&7Discord: https://discord.gg/eRxezh3hY8");
-        sendMessageToConsole("&7Website: https://sstudiosdev.github.io/");
         sendMessageToConsole("&7Thank you &c pichema");
     }
 
@@ -106,4 +107,5 @@ public final class BetterPvP extends JavaPlugin {
     private void sendMessageToConsole(String message) {
         Bukkit.getConsoleSender().sendMessage(ChatColorUtil.colorize(message));
     }
+
 }
