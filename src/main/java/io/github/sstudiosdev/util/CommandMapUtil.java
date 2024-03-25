@@ -41,7 +41,7 @@ public final class CommandMapUtil {
         try {
             return ((CommandMap) COMMAND_MAP_FIELD.get(Bukkit.getServer().getPluginManager()));
         } catch (final Exception e) {
-            throw new RuntimeException("No se pudo obtener CommandMap", e);
+            throw new RuntimeException("[BatterPvP System] CommandMap could not be obtained", e);
         }
     }
 
@@ -57,7 +57,7 @@ public final class CommandMapUtil {
 
         // Verifica si el comando ya estregistrado
         if (commandMap.getCommand(command.getName()) != null) {
-            Bukkit.getLogger().warning("El comando '" + command.getName() + "' ya estregistrado.");
+            Bukkit.getLogger().warning("[BatterPvP System] The command '" + command.getName() + "' is already registered.");
             return null;
         }
 
