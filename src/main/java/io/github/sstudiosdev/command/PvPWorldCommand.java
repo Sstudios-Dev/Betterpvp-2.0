@@ -53,6 +53,19 @@ public class PvPWorldCommand extends BaseCommand implements Listener {
         }
     }
 
+    public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
+        List<String> completions = new ArrayList<>();
+        if (args.length == 1) {
+            completions.add("on");
+            completions.add("off");
+        } else if (args.length == 2) {
+            for (World world : betterPvP.getServer().getWorlds()) {
+                completions.add(world.getName());
+            }
+        }
+        return completions;
+    }
+
     private boolean hasPermission(CommandSender sender) {
         return sender.hasPermission("betterpvp.pvpworld") || sender instanceof ConsoleCommandSender || sender.isOp();
     }
