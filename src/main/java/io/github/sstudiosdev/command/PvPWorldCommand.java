@@ -23,7 +23,7 @@ public class PvPWorldCommand extends BaseCommand implements Listener {
     private final Map<String, Boolean> pvpWorlds = new HashMap<>();
 
     public PvPWorldCommand(final BetterPvP betterPvP) {
-        super("pvpworld", new ArrayList<>(), "", true);
+        super("pvpworld", new ArrayList<>(), "betterpvp.pvpworld", true);
         this.betterPvP = betterPvP;
 
         PluginManager pluginManager = betterPvP.getServer().getPluginManager();
@@ -37,9 +37,13 @@ public class PvPWorldCommand extends BaseCommand implements Listener {
                 World world = betterPvP.getServer().getWorld(args[1]);
                 if (world != null) {
                     pvpWorlds.put(world.getName(), args[0].equalsIgnoreCase("on"));
-                    sender.sendMessage(ChatColorUtil.colorize(BetterPvP.prefix + " PvP is now " + args[0].toLowerCase() + " in world " + world.getName()));
+                    String message = args[0].equalsIgnoreCase("on") ?
+                            betterPvP.getMainConfig().getString("pvpworld-enabled") :
+                            betterPvP.getMainConfig().getString("pvpworld-disabled");
+                    message = message.replace("%world%", world.getName());
+                    sender.sendMessage(ChatColorUtil.colorize(BetterPvP.prefix + " " + message));
                 } else {
-                    sender.sendMessage(ChatColor.RED + "World not found: " + args[1]);
+                    sendWorldNoFound(sender, args[1]);
                 }
             } else {
                 sendNoPermissionMessage(sender);
@@ -57,6 +61,12 @@ public class PvPWorldCommand extends BaseCommand implements Listener {
         String noPermissionMessage = betterPvP.getMainConfig().getString("no-permission");
         noPermissionMessage = noPermissionMessage.replace("%player_name%", sender.getName());
         sender.sendMessage(ChatColorUtil.colorize(BetterPvP.prefix + " " + noPermissionMessage));
+    }
+
+    private void sendWorldNoFound(CommandSender sender, String worldName) {
+        String worldNotFound = betterPvP.getMainConfig().getString("world-not-found");
+        worldNotFound = worldNotFound.replace("%world%", worldName);
+        sender.sendMessage(ChatColorUtil.colorize(BetterPvP.prefix + " " + worldNotFound));
     }
 
     @EventHandler
