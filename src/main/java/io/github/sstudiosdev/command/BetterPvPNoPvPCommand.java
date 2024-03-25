@@ -14,6 +14,7 @@ import org.bukkit.plugin.PluginManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class BetterPvPNoPvPCommand extends BaseCommand implements Listener {
@@ -24,7 +25,7 @@ public class BetterPvPNoPvPCommand extends BaseCommand implements Listener {
 
     public BetterPvPNoPvPCommand(final BetterPvP betterPvP) {
         // Establecer el nombre del comando y sus permisos
-        super("nopvp", new ArrayList<>(), "betterpvp.nopvp", true);
+        super("nopvp", new ArrayList<>(), "", true);
         this.betterPvP = betterPvP;
 
         // Registrar el evento para manejar el daño
@@ -71,6 +72,15 @@ public class BetterPvPNoPvPCommand extends BaseCommand implements Listener {
             // Mensaje de uso incorrecto
             sender.sendMessage(ChatColor.RED + "Usage: /nopvp <on/off>");
         }
+    }
+
+    public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
+        List<String> completions = new ArrayList<>();
+        if (args.length == 1) {
+            completions.add("on");
+            completions.add("off");
+        }
+        return completions;
     }
 
     /**
