@@ -1,4 +1,5 @@
-# Betterpvp-2.0
+<img align=center src="https://raw.githubusercontent.com/Sstudios-Dev/Betterpvp-2.0/master/.github/Betterpvp.png">
+
 Official repository of the betterpvp plugin developed by the SStudiosDev Team.
 
 Made By: SStudios
