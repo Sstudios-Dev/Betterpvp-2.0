@@ -5,6 +5,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -30,6 +31,17 @@ public class RespawnProtectionListener implements Listener {
         Bukkit.getScheduler().runTaskLater((JavaPlugin) Bukkit.getPluginManager().getPlugin("BetterPvP"), () -> {
             playersWithRespawnProtection.remove(player);
             player.sendMessage(ChatColor.GREEN + "¡Has terminado la protección de respawn!");
-        }, 100);
+        }, 100); // 5 segundos (20 ticks por segundo, 100 ticks = 5 segundos)
+    }
+
+    @EventHandler
+    public void onEntityDamage(EntityDamageEvent event) {
+        if (event.getEntity() instanceof Player) {
+            Player player = (Player) event.getEntity();
+            if (playersWithRespawnProtection.contains(player)) {
+                event.setCancelled(true);
+                player.sendMessage(ChatColor.RED + "¡No puedes recibir daño mientras tienes protección de respawn!");
+            }
+        }
     }
 }
