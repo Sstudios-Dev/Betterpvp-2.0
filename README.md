@@ -1,5 +1,5 @@
 <p align="center">
-	<img src="https://raw.githubusercontent.com/Sstudios-Dev/Betterpvp-2.0/master/.github/Betterpvp.png">
+	<img src="https://raw.githubusercontent.com/Sstudios-Dev/Betterpvp-2.0/master/.github/BETTERPVP2.png">
 	<h3 align="center">
 		<a href="https://sstudiosdev.is-a.dev/docs/betterpvp.html">Documentation</a>
 	</h3>
