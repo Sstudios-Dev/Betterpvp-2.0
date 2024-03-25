@@ -14,7 +14,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
- * Clase principal del plugin BetterPvP.
+ * Main class of the BetterPvP plugin.
  */
 public final class BetterPvP extends JavaPlugin {
 
@@ -26,25 +26,25 @@ public final class BetterPvP extends JavaPlugin {
     private VaultHookManager vaultHookManager;
 
     /**
-     * Método llamado cuando se habilita el plugin.
+     * Method called when the plugin is enabled.
      */
     @Override
     public void onEnable() {
-        // Cargar configuración
+        // Load configuration
         loadConfiguration();
 
-        // Registrar eventos
+        // Log events
         registerEvents();
 
-        // Registrar managers
+        // Register managers
         loadManagers();
 
-        // Mostrar información en la consola
+        // Display information in the console
         displayConsoleInfo();
     }
 
     /**
-     * Método llamado cuando se deshabilita el plugin.
+     * Method called when the plugin is disabled.
      */
     @Override
     public void onDisable() {
@@ -53,17 +53,17 @@ public final class BetterPvP extends JavaPlugin {
     }
 
     /**
-     * Carga los managers necesarios para el funcionamiento del plugin.
+     * Load the managers necessary for the plugin to work.
      */
     private void loadManagers() {
         vaultHookManager = new VaultHookManager();
     }
 
     /**
-     * Carga la configuración del plugin.
+     * Load the plugin settings.
      */
     private void loadConfiguration() {
-        // Inicializar la clase Config
+        // Initializing the Config Class
         mainConfig = new Config(this, "config");
         mainConfig.load();
 
@@ -72,10 +72,10 @@ public final class BetterPvP extends JavaPlugin {
     }
 
     /**
-     * Registra los eventos del plugin.
+     * Log plugin events.
      */
     private void registerEvents() {
-        // Registrar los listeners de eventos
+        // Register event listeners
         getServer().getPluginManager().registerEvents(new AntiKillAbuseListener(this), this);
         getServer().getPluginManager().registerEvents(new PlayerDeathListener(this), this);
 
@@ -85,7 +85,7 @@ public final class BetterPvP extends JavaPlugin {
     }
 
     /**
-     * Muestra información en la consola al habilitar el plugin.
+     * Displays information in the console when you enable the plugin.
      */
     private void displayConsoleInfo() {
         sendMessageToConsole("     &3_____");
@@ -100,9 +100,9 @@ public final class BetterPvP extends JavaPlugin {
     }
 
     /**
-     * Envía un mensaje formateado a la consola.
+     * Send a formatted message to the console.
      *
-     * @param message Mensaje a enviar a la consola.
+     * @param message Message to be sent to the console.
      */
     private void sendMessageToConsole(String message) {
         Bukkit.getConsoleSender().sendMessage(ChatColorUtil.colorize(message));
