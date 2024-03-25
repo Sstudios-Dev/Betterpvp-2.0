@@ -6,15 +6,3 @@
 </p>
 
 <p align="center"> <strong>BetterPvP</strong> is a <a href="https://www.minecraft.net/">Minecraft</a> plugin tailored for the Minecraft community, focusing on managing and enhancing player versus player (PvP) dynamics within the game. This plugin provides an array of tools and configurations aimed at balancing the combat experience among players, fostering a competitive and equitable environment. From rule adjustments to tracking features and statistical analysis, BetterPvP has emerged as an essential component for servers aiming to deliver a refined PvP experience, catering to both casual and competitive players alike.</p>
-
-Made By: SStudios
-
-Discord: https://discord.gg/eRxezh3hY8
-
-WebSite: https://sstudiosdev.is-a.dev/
-
-Spigot: https://www.spigotmc.org/members/sstudios-team.1957112/
-
-<img src="https://contrib.rocks/image?repo=Sstudios-Dev/Betterpvp-2.0">
-
-[staFF6773, 1vcb, pichema, akit] ❤
