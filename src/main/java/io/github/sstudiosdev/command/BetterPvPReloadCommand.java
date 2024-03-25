@@ -6,6 +6,7 @@ import io.github.sstudiosdev.util.command.BaseCommand;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
+import java.util.List;
 
 import java.util.ArrayList;
 
@@ -38,6 +39,14 @@ public class BetterPvPReloadCommand extends BaseCommand {
             // Mensaje de uso incorrecto
             sender.sendMessage(ChatColor.RED + "Usage: /betterpvp reload");
         }
+    }
+
+    public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
+        List<String> completions = new ArrayList<>();
+        if (args.length == 1) {
+            completions.add("reload");
+        }
+        return completions;
     }
 
     /**
