@@ -74,7 +74,8 @@ cooldown:
 # In this module you will be able to modify the
 #protection when respawning.
 
-
+respawn-protection:
+  enabled: true
 
 # End Config.yml
 # Thank you pichema ❤
