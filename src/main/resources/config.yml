@@ -28,6 +28,8 @@ pvptoggle: "&aPvP is now %status%."
 pvpworld-enabled: "&aPvP combat has been activated in the world %world%."
 pvpworld-disabled: "&cPvP combat has been disabled in the world %world%."
 cooldown-error-message: "&cYou must wait before using this command again."
+respawn_message: "&aYou have finished respawn protection!"
+protection_message: "&cYou cannot take damage while you have respawn protection!"
 
 # ============================================================
 # |                        AntiKillAbuse                     |
