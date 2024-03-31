@@ -24,11 +24,9 @@ public class BetterPvPNoPvPCommand extends BaseCommand implements Listener {
     private boolean pvpEnabled = true;
 
     public BetterPvPNoPvPCommand(final BetterPvP betterPvP) {
-        // Set the command name and permissions
-        super("pvp", new ArrayList<>(), "", true);
+        super("pvp", new ArrayList<>(), "betterpvp.pvp", true);
         this.betterPvP = betterPvP;
 
-        // Registrar el evento para manejar el daño
         PluginManager pluginManager = betterPvP.getServer().getPluginManager();
         pluginManager.registerEvents(this, betterPvP);
     }
@@ -37,7 +35,6 @@ public class BetterPvPNoPvPCommand extends BaseCommand implements Listener {
     public void execute(CommandSender sender, String[] args) {
         // Verify whether the "on" or "off" argument was provided.
         if (args.length == 1 && (args[0].equalsIgnoreCase("on") || args[0].equalsIgnoreCase("off"))) {
-            // Verificar permisos del jugador
             if (hasPermission(sender)) {
                 if (args[0].equalsIgnoreCase("off") && sender instanceof Player) {
                     Player player = (Player) sender;
@@ -58,13 +55,11 @@ public class BetterPvPNoPvPCommand extends BaseCommand implements Listener {
                 // Replace "%status%" with the status provided in the command
                 pvpToggleMessage = pvpToggleMessage.replace("%status%", args[0]);
 
-                // Actualizar el estado del PvP
                 pvpEnabled = args[0].equalsIgnoreCase("on");
 
                 // Send success message
                 sender.sendMessage(ChatColorUtil.colorize(BetterPvP.prefix + " " + pvpToggleMessage));
             } else {
-                // Enviar mensaje de falta de permisos
                 sendNoPermissionMessage(sender);
             }
         } else {
