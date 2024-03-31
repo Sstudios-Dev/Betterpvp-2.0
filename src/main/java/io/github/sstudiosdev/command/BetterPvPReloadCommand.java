@@ -15,7 +15,7 @@ public class BetterPvPReloadCommand extends BaseCommand {
 
     public BetterPvPReloadCommand(final BetterPvP betterPvP) {
         // Establecer el nombre del comando y sus permisos
-        super("betterpvp", new ArrayList<>(), "betterpvp.reload", true);
+        super("betterpvp", new ArrayList<>(), "betterpvp.main", true);
         this.betterPvP = betterPvP;
     }
 
@@ -35,9 +35,13 @@ public class BetterPvPReloadCommand extends BaseCommand {
                 // Enviar mensaje de falta de permisos
                 sendNoPermissionMessage(sender);
             }
+        } else if (args.length == 1 && args[0].equalsIgnoreCase("help")) {
+            sender.sendMessage(ChatColorUtil.colorize("&6====== BetterPvP Help ======"));
+            sender.sendMessage(ChatColorUtil.colorize("&6/betterpvp reload &7- Reload the configuration file"));
+            sender.sendMessage(ChatColorUtil.colorize("&6/betterpvp help &7- Show this help message"));
         } else {
             // Mensaje de uso incorrecto
-            sender.sendMessage(ChatColor.RED + "Usage: /betterpvp reload");
+            sender.sendMessage(ChatColor.RED + "Usage: /betterpvp <command>");
         }
     }
 
@@ -45,6 +49,7 @@ public class BetterPvPReloadCommand extends BaseCommand {
         List<String> completions = new ArrayList<>();
         if (args.length == 1) {
             completions.add("reload");
+            completions.add("help");
         }
         return completions;
     }
@@ -56,7 +61,7 @@ public class BetterPvPReloadCommand extends BaseCommand {
      * @return True si el jugador tiene permisos, false de lo contrario.
      */
     private boolean hasPermission(CommandSender sender) {
-        return sender.hasPermission("betterpvp.reload") || sender instanceof ConsoleCommandSender || sender.isOp();
+        return sender.hasPermission("betterpvp.main") || sender instanceof ConsoleCommandSender || sender.isOp();
     }
 
     /**
