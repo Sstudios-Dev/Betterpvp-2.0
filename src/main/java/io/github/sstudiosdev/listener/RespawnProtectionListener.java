@@ -1,7 +1,10 @@
 package io.github.sstudiosdev.listener;
 
+import io.github.sstudiosdev.BetterPvP;
+import io.github.sstudiosdev.util.ChatColorUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -14,7 +17,14 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class RespawnProtectionListener implements Listener {
-    private Set<Player> playersWithRespawnProtection = new HashSet<>();
+    private final Set<Player> playersWithRespawnProtection = new HashSet<>();
+    private final JavaPlugin plugin;
+    private final FileConfiguration config;
+
+    public RespawnProtectionListener(JavaPlugin plugin) {
+        this.plugin = plugin;
+        this.config = plugin.getConfig();
+    }
 
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event) {
@@ -28,10 +38,11 @@ public class RespawnProtectionListener implements Listener {
     public void onPlayerRespawn(PlayerRespawnEvent event) {
         final Player player = event.getPlayer();
         playersWithRespawnProtection.add(player);
-        Bukkit.getScheduler().runTaskLater((JavaPlugin) Bukkit.getPluginManager().getPlugin("BetterPvP"), () -> {
+        Bukkit.getScheduler().runTaskLater(plugin, () -> {
             playersWithRespawnProtection.remove(player);
-            player.sendMessage(ChatColor.GREEN + "¡Has terminado la protección de respawn!");
-        }, 100); // 5 segundos (20 ticks por segundo, 100 ticks = 5 segundos)
+            String respawnMessage = ChatColorUtil.colorize(BetterPvP.prefix + " " + config.getString("respawn_message"));
+            player.sendMessage(respawnMessage);
+        }, 100); // 5 seconds (20 ticks per second, 100 ticks = 5 seconds)
     }
 
     @EventHandler
@@ -40,7 +51,8 @@ public class RespawnProtectionListener implements Listener {
             Player player = (Player) event.getEntity();
             if (playersWithRespawnProtection.contains(player)) {
                 event.setCancelled(true);
-                player.sendMessage(ChatColor.RED + "¡No puedes recibir daño mientras tienes protección de respawn!");
+                String protectionMessage = ChatColorUtil.colorize(BetterPvP.prefix + " " + config.getString("protection_message"));
+                player.sendMessage(protectionMessage);
             }
         }
     }
