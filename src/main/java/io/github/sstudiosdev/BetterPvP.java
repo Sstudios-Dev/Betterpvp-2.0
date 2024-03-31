@@ -5,6 +5,7 @@ import io.github.sstudiosdev.command.BetterPvPReloadCommand;
 import io.github.sstudiosdev.command.PvPWorldCommand;
 import io.github.sstudiosdev.listener.AntiKillAbuseListener;
 import io.github.sstudiosdev.listener.PlayerDeathListener;
+import io.github.sstudiosdev.listener.RespawnProtectionListener;
 import io.github.sstudiosdev.util.ChatColorUtil;
 import io.github.sstudiosdev.util.CommandMapUtil;
 import io.github.sstudiosdev.util.constructors.Config;
@@ -109,6 +110,7 @@ public final class BetterPvP extends JavaPlugin {
         // Register event listeners
         getServer().getPluginManager().registerEvents(new AntiKillAbuseListener(this), this);
         getServer().getPluginManager().registerEvents(new PlayerDeathListener(this), this);
+        getServer().getPluginManager().registerEvents(new RespawnProtectionListener(this), this);
 
         CommandMapUtil.registerCommand(this, new BetterPvPReloadCommand(this));
         CommandMapUtil.registerCommand(this, new BetterPvPNoPvPCommand(this));

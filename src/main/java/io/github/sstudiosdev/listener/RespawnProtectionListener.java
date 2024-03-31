@@ -41,12 +41,13 @@ public class RespawnProtectionListener implements Listener {
             return;
         }
 
-        playersWithRespawnProtection.add(player);
+        playersWithRespawnProtection.add(player); // Add player to set
+        int duration = config.getInt("respawn-protection.duration", 5); // Get duration from config, default to 5 seconds
         Bukkit.getScheduler().runTaskLater(plugin, () -> {
             playersWithRespawnProtection.remove(player);
             String respawnMessage = ChatColorUtil.colorize(BetterPvP.prefix + " " + config.getString("respawn_message"));
             player.sendMessage(respawnMessage);
-        }, 100); // 5 seconds (20 ticks per second, 100 ticks = 5 seconds)
+        }, duration * 20L); // Convert seconds to ticks
     }
 
     @EventHandler
