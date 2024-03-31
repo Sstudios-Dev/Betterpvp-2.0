@@ -21,11 +21,11 @@ public class BetterPvPNoPvPCommand extends BaseCommand implements Listener {
     private final BetterPvP betterPvP;
     private final Map<Player, Long> cooldowns = new HashMap<>();
 
-    private boolean pvpEnabled = true; // Estado predeterminado: PvP habilitado
+    private boolean pvpEnabled = true;
 
     public BetterPvPNoPvPCommand(final BetterPvP betterPvP) {
-        // Establecer el nombre del comando y sus permisos
-        super("nopvp", new ArrayList<>(), "", true);
+        // Set the command name and permissions
+        super("pvp", new ArrayList<>(), "", true);
         this.betterPvP = betterPvP;
 
         // Registrar el evento para manejar el daño
@@ -35,16 +35,16 @@ public class BetterPvPNoPvPCommand extends BaseCommand implements Listener {
 
     @Override
     public void execute(CommandSender sender, String[] args) {
-        // Verificar si se proporcionó el argumento "on" o "off"
+        // Verify whether the "on" or "off" argument was provided.
         if (args.length == 1 && (args[0].equalsIgnoreCase("on") || args[0].equalsIgnoreCase("off"))) {
             // Verificar permisos del jugador
             if (hasPermission(sender)) {
-                // Verificar cooldown solo si se activa el PvP
-                if (args[0].equalsIgnoreCase("on") && sender instanceof Player) {
+                // Verificar cooldown solo para el estado "off"
+                if (args[0].equalsIgnoreCase("off") && sender instanceof Player) {
                     Player player = (Player) sender;
                     long currentTime = System.currentTimeMillis();
-                    long defaultCooldown = 60L; // Valor predeterminado en segundos
-                    long cooldownTime = betterPvP.getMainConfig().getLong("cooldown.nopvp_cooldown", defaultCooldown) * 1000;
+                    long defaultCooldown = 60L; // Default value in seconds
+                    long cooldownTime = betterPvP.getMainConfig().getLong("cooldown.pvp_cooldown", defaultCooldown) * 1000;
                     if (cooldowns.containsKey(player) && cooldowns.get(player) + cooldownTime > currentTime) {
                         String CooldownError = betterPvP.getMainConfig().getString("cooldown-error-message");
                         sender.sendMessage(ChatColorUtil.colorize(BetterPvP.prefix + " " + CooldownError));
@@ -53,24 +53,24 @@ public class BetterPvPNoPvPCommand extends BaseCommand implements Listener {
                     cooldowns.put(player, currentTime);
                 }
 
-                // Obtener el mensaje desde la configuración
+                // Get the message from the configuration
                 String pvpToggleMessage = betterPvP.getMainConfig().getString("pvptoggle");
 
-                // Reemplazar "%status%" con el estado proporcionado en el comando
+                // Replace "%status%" with the status provided in the command
                 pvpToggleMessage = pvpToggleMessage.replace("%status%", args[0]);
 
                 // Actualizar el estado del PvP
                 pvpEnabled = args[0].equalsIgnoreCase("on");
 
-                // Enviar el mensaje de éxito
+                // Send success message
                 sender.sendMessage(ChatColorUtil.colorize(BetterPvP.prefix + " " + pvpToggleMessage));
             } else {
                 // Enviar mensaje de falta de permisos
                 sendNoPermissionMessage(sender);
             }
         } else {
-            // Mensaje de uso incorrecto
-            sender.sendMessage(ChatColor.RED + "Usage: /nopvp <on/off>");
+            // Incorrect use message
+            sender.sendMessage(ChatColor.RED + "Usage: /pvp <on/off>");
         }
     }
 
@@ -84,36 +84,30 @@ public class BetterPvPNoPvPCommand extends BaseCommand implements Listener {
     }
 
     /**
-     * Verifica si el jugador tiene los permisos necesarios.
+     * Verify if the player has the necessary permissions.
      *
-     * @param sender El remitente del comando.
-     * @return True si el jugador tiene permisos, false de lo contrario.
+     * @param sender The sender of the command.
+     * @return True if the player has permissions, false otherwise.
      */
     private boolean hasPermission(CommandSender sender) {
-        return sender.hasPermission("betterpvp.nopvp") || sender instanceof ConsoleCommandSender || sender.isOp();
+        return sender.hasPermission("betterpvp.pvp") || sender instanceof ConsoleCommandSender || sender.isOp();
     }
 
     /**
-     * Envia el mensaje de falta de permisos al jugador.
+     * Sends the lack of permissions message to the player.
      *
-     * @param sender El remitente del comando.
+     * @param sender The sender of the command.
      */
     private void sendNoPermissionMessage(CommandSender sender) {
-        // Obtener el mensaje desde la configuración, si no existe, usar uno por defecto
         String noPermissionMessage = betterPvP.getMainConfig().getString("no-permission");
-        // Reemplazar "%player_name%" con el nombre del jugador
         noPermissionMessage = noPermissionMessage.replace("%player_name%", sender.getName());
-        // Enviar el mensaje de falta de permisos
         sender.sendMessage(ChatColorUtil.colorize(BetterPvP.prefix + " " + noPermissionMessage));
     }
 
-    // Manejar el evento de daño
     @EventHandler
     public void onEntityDamage(EntityDamageEvent event) {
         if (event.getEntity() instanceof Player) {
-            // Verificar si el PvP está desactivado
             if (!pvpEnabled && event.getCause() == EntityDamageEvent.DamageCause.ENTITY_ATTACK) {
-                // Cancelar el evento si el PvP está desactivado y la causa del daño es un ataque
                 event.setCancelled(true);
             }
         }
