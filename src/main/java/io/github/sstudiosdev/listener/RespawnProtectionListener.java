@@ -37,6 +37,10 @@ public class RespawnProtectionListener implements Listener {
     @EventHandler
     public void onPlayerRespawn(PlayerRespawnEvent event) {
         final Player player = event.getPlayer();
+        if (!config.getBoolean("respawn-protection.enabled", true)) {
+            return;
+        }
+
         playersWithRespawnProtection.add(player);
         Bukkit.getScheduler().runTaskLater(plugin, () -> {
             playersWithRespawnProtection.remove(player);
