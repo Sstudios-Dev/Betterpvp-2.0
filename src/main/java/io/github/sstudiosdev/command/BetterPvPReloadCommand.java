@@ -46,7 +46,7 @@ public class BetterPvPReloadCommand extends BaseCommand {
             sender.sendMessage(ChatColorUtil.colorize("&3/pvpworld <on/off> <world> &7- disable and enable global pvp for all players in that world"));
         } else {
             // Incorrect use message
-            sender.sendMessage(ChatColor.RED + "Usage: /betterpvp <command>");
+            sender.sendMessage(ChatColorUtil.colorize(BetterPvP.prefix + " &cUsage: /betterpvp <command>"));
         }
     }
 
