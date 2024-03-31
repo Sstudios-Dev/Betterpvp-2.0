@@ -56,14 +56,23 @@ player-kills:
   money-reward: 10.0
 
 # ============================================================
-# |                        Nopvp system                     |
+# |                        PvP toggle                        |
 # ============================================================
 
-# this module contains all the configuration of the /nopvp <on/off> command.
+# this module contains all the configuration of the /pvp <on/off> command.
 # this is one of the main modules of the plugins
 
 cooldown:
-  nopvp_cooldown: 60
+  pvp-cooldown: 60
+
+# ============================================================
+# |                        RespawnProtection                 |
+# ============================================================
+
+# In this module you will be able to modify the
+#protection when respawning.
+
+
 
 # End Config.yml
 # Thank you pichema ❤
