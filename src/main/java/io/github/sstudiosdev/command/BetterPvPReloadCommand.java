@@ -14,7 +14,7 @@ public class BetterPvPReloadCommand extends BaseCommand {
     private final BetterPvP betterPvP;
 
     public BetterPvPReloadCommand(final BetterPvP betterPvP) {
-        // Establecer el nombre del comando y sus permisos
+        // Set the command name and permissions
         super("betterpvp", new ArrayList<>(), "betterpvp.main", true);
         this.betterPvP = betterPvP;
     }
@@ -23,24 +23,29 @@ public class BetterPvPReloadCommand extends BaseCommand {
     public void execute(CommandSender sender, String[] args) {
         // Verificar si se proporcionó el argumento "reload"
         if (args.length == 1 && args[0].equalsIgnoreCase("reload")) {
-            // Verificar permisos del jugador
+            // Verify player permissions
             if (hasPermission(sender)) {
-                // Recargar la configuración
+                // Reload configuration
                 betterPvP.getMainConfig().load();
 
                 // Enviar mensajes de éxito
                 sender.sendMessage(ChatColorUtil.colorize(BetterPvP.prefix + " &aThe configuration file was reloaded."));
                 sender.sendMessage(ChatColorUtil.colorize("&7(Some options only apply after the server has been restarted.)"));
             } else {
-                // Enviar mensaje de falta de permisos
+                // Send message of lack of permissions
                 sendNoPermissionMessage(sender);
             }
         } else if (args.length == 1 && args[0].equalsIgnoreCase("help")) {
-            sender.sendMessage(ChatColorUtil.colorize("&6====== BetterPvP Help ======"));
-            sender.sendMessage(ChatColorUtil.colorize("&6/betterpvp reload &7- Reload the configuration file"));
-            sender.sendMessage(ChatColorUtil.colorize("&6/betterpvp help &7- Show this help message"));
+            sender.sendMessage(ChatColorUtil.colorize("&3====== BetterPvP Help ======"));
+            sender.sendMessage(ChatColorUtil.colorize("&3/betterpvp reload &7- Reload the configuration file"));
+            sender.sendMessage(ChatColorUtil.colorize("&f"));
+            sender.sendMessage(ChatColorUtil.colorize("&3/betterpvp help &7- Show this help message"));
+            sender.sendMessage(ChatColorUtil.colorize("&f"));
+            sender.sendMessage(ChatColorUtil.colorize("&3/pvp <on/off> &7- activates and deactivates player pvp"));
+            sender.sendMessage(ChatColorUtil.colorize("&f"));
+            sender.sendMessage(ChatColorUtil.colorize("&3/pvpworld <on/off> <world> &7- disable and enable global pvp for all players in that world"));
         } else {
-            // Mensaje de uso incorrecto
+            // Incorrect use message
             sender.sendMessage(ChatColor.RED + "Usage: /betterpvp <command>");
         }
     }
@@ -55,26 +60,24 @@ public class BetterPvPReloadCommand extends BaseCommand {
     }
 
     /**
-     * Verifica si el jugador tiene los permisos necesarios.
+     * Verify if the player has the necessary permissions.
      *
-     * @param sender El remitente del comando.
-     * @return True si el jugador tiene permisos, false de lo contrario.
+     * @param sender The sender of the command.
+     * @return True if the player has permissions, false otherwise.
      */
     private boolean hasPermission(CommandSender sender) {
         return sender.hasPermission("betterpvp.main") || sender instanceof ConsoleCommandSender || sender.isOp();
     }
 
     /**
-     * Envia el mensaje de falta de permisos al jugador.
+     * Sends the lack of permissions message to the player.
      *
-     * @param sender El remitente del comando.
+     * @param sender The sender of the command.
      */
     private void sendNoPermissionMessage(CommandSender sender) {
-        // Obtener el mensaje desde la configuración, si no existe, usar uno por defecto
+        // Get the message from the configuration, if it does not exist, use a default one.
         String noPermissionMessage = betterPvP.getMainConfig().getString("no-permission");
-        // Reemplazar "%player_name%" con el nombre del jugador
         noPermissionMessage = noPermissionMessage.replace("%player_name%", sender.getName());
-        // Enviar el mensaje de falta de permisos
         sender.sendMessage(ChatColorUtil.colorize(BetterPvP.prefix + " " + noPermissionMessage));
     }
 }
