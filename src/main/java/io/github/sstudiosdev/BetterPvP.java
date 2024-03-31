@@ -29,6 +29,7 @@ public final class BetterPvP extends JavaPlugin {
 
     @Getter
     private VaultHookManager vaultHookManager;
+    private boolean loadLicenseFile;
 
     /**
      * Method called when the plugin is enabled.
@@ -48,17 +49,19 @@ public final class BetterPvP extends JavaPlugin {
         displayConsoleInfo();
 
         // Copy Apache-2.0 license file from resources to plugin folder
-        try {
-            File licenseFile = new File(getDataFolder(), "Apache-2.0 license");
-            if (!licenseFile.exists()) {
-                InputStream inputStream = getResource("Apache-2.0 license");
-                Files.copy(inputStream, licenseFile.toPath());
-                getLogger().info("License file 'Apache-2.0' loaded successfully.");
-            } else {
-                getLogger().info("License file 'Apache-2.0' already exists.");
+        if (mainConfig.getBoolean("load-license-file")) {
+            try {
+                File licenseFile = new File(getDataFolder(), "Apache-2.0 license");
+                if (!licenseFile.exists()) {
+                    InputStream inputStream = getResource("Apache-2.0 license");
+                    Files.copy(inputStream, licenseFile.toPath());
+                    getLogger().info("License file 'Apache-2.0' loaded successfully.");
+                } else {
+                    getLogger().info("License file 'Apache-2.0' already exists.");
+                }
+            } catch (IOException e) {
+                getLogger().warning("Failed to load license file 'Apache-2.0'. Reason: " + e.getMessage());
             }
-        } catch (IOException e) {
-            getLogger().warning("Failed to load license file 'Apache-2.0'. Reason: " + e.getMessage());
         }
     }
 
@@ -88,6 +91,15 @@ public final class BetterPvP extends JavaPlugin {
 
         // Get prefix from configuration
         prefix = mainConfig.getString("prefix");
+
+        // Check if the plugin should load the license file
+        if (mainConfig.contains("load-license-file")) {
+            loadLicenseFile = mainConfig.getBoolean("load-license-file");
+        } else {
+            // Default value if not specified in config
+            loadLicenseFile = true;
+        }
+
     }
 
     /**
