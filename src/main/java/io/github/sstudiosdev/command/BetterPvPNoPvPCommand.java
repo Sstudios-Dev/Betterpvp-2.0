@@ -64,7 +64,7 @@ public class BetterPvPNoPvPCommand extends BaseCommand implements Listener {
             }
         } else {
             // Incorrect use message
-            sender.sendMessage(ChatColor.RED + "Usage: /pvp <on/off>");
+            sender.sendMessage(ChatColorUtil.colorize(BetterPvP.prefix + " Usage: /pvp <on/off>"));
         }
     }
 

@@ -49,7 +49,7 @@ public class PvPWorldCommand extends BaseCommand implements Listener {
                 sendNoPermissionMessage(sender);
             }
         } else {
-            sender.sendMessage(ChatColor.RED + "Usage: /pvpworld <on/off> <world>");
+            sender.sendMessage(ChatColorUtil.colorize(BetterPvP.prefix + " Usage: /pvpworld <on/off> <world>"));
         }
     }
 
