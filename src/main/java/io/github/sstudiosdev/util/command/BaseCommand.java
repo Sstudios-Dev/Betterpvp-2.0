@@ -1,5 +1,6 @@
 package io.github.sstudiosdev.util.command;
 
+import io.github.sstudiosdev.BetterPvP;
 import lombok.Setter;
 import org.apache.commons.lang.math.NumberUtils;
 import org.bukkit.ChatColor;
@@ -41,7 +42,7 @@ public abstract class BaseCommand extends BukkitCommand {
      */
     protected boolean checkConsoleSender(CommandSender sender) {
         if (sender instanceof ConsoleCommandSender) {
-            sender.sendMessage(ChatColor.RED + "Players only");
+            sender.sendMessage(BetterPvP.prefix + " " + ChatColor.RED + "Players only");
             return false;
         }
         return true;
@@ -58,12 +59,12 @@ public abstract class BaseCommand extends BukkitCommand {
     @Override
     public boolean execute(CommandSender sender, String label, String[] args) {
         if (this.forPlayersOnly && sender instanceof ConsoleCommandSender) {
-            sender.sendMessage(ChatColor.RED + "Players only!");
+            sender.sendMessage(BetterPvP.prefix + " " + ChatColor.RED + "Players only!");
             return true;
         }
 
         if (this.getPermission() != null && !sender.hasPermission(this.getPermission())) {
-            sender.sendMessage(ChatColor.RED + "You don't have permissions!");
+            sender.sendMessage(BetterPvP.prefix + " " + ChatColor.RED + "You don't have permissions!");
             return true;
         }
 
@@ -95,7 +96,7 @@ public abstract class BaseCommand extends BukkitCommand {
      */
     protected boolean checkPlayer(CommandSender sender, Player player, String playerName) {
         if (player == null) {
-            sender.sendMessage(ChatColor.RED + "The player is not online!");
+            sender.sendMessage(BetterPvP.prefix + " " + ChatColor.RED + "The player is not online!");
             return false;
         }
         return true;
@@ -110,7 +111,7 @@ public abstract class BaseCommand extends BukkitCommand {
      */
     protected boolean checkNumber(CommandSender sender, String number) {
         if (!NumberUtils.isNumber(number)) {
-            sender.sendMessage(ChatColor.RED + "It is an invalid number.");
+            sender.sendMessage(BetterPvP.prefix + " " + ChatColor.RED + "It is an invalid number.");
             return false;
         }
         return true;
@@ -125,7 +126,7 @@ public abstract class BaseCommand extends BukkitCommand {
      */
     protected boolean checkPermission(CommandSender sender, String permission) {
         if (!sender.hasPermission(permission)) {
-            sender.sendMessage(ChatColor.RED + "You don't have permissions!");
+            sender.sendMessage(BetterPvP.prefix + " " + ChatColor.RED + "You don't have permissions!");
             return false;
         }
         return true;
