@@ -39,12 +39,11 @@ public class BetterPvPNoPvPCommand extends BaseCommand implements Listener {
         if (args.length == 1 && (args[0].equalsIgnoreCase("on") || args[0].equalsIgnoreCase("off"))) {
             // Verificar permisos del jugador
             if (hasPermission(sender)) {
-                // Verificar cooldown solo para el estado "off"
                 if (args[0].equalsIgnoreCase("off") && sender instanceof Player) {
                     Player player = (Player) sender;
                     long currentTime = System.currentTimeMillis();
                     long defaultCooldown = 60L; // Default value in seconds
-                    long cooldownTime = betterPvP.getMainConfig().getLong("cooldown.pvp_cooldown", defaultCooldown) * 1000;
+                    long cooldownTime = betterPvP.getMainConfig().getLong("cooldown.pvp-cooldown", defaultCooldown) * 1000;
                     if (cooldowns.containsKey(player) && cooldowns.get(player) + cooldownTime > currentTime) {
                         String CooldownError = betterPvP.getMainConfig().getString("cooldown-error-message");
                         sender.sendMessage(ChatColorUtil.colorize(BetterPvP.prefix + " " + CooldownError));
