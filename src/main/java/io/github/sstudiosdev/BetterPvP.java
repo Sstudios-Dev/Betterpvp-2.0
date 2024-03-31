@@ -13,6 +13,11 @@ import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+
 /**
  * Main class of the BetterPvP plugin.
  */
@@ -41,6 +46,20 @@ public final class BetterPvP extends JavaPlugin {
 
         // Display information in the console
         displayConsoleInfo();
+
+        // Copy Apache-2.0 license file from resources to plugin folder
+        try {
+            File licenseFile = new File(getDataFolder(), "Apache-2.0 license");
+            if (!licenseFile.exists()) {
+                InputStream inputStream = getResource("Apache-2.0 license");
+                Files.copy(inputStream, licenseFile.toPath());
+                getLogger().info("License file 'Apache-2.0' loaded successfully.");
+            } else {
+                getLogger().info("License file 'Apache-2.0' already exists.");
+            }
+        } catch (IOException e) {
+            getLogger().warning("Failed to load license file 'Apache-2.0'. Reason: " + e.getMessage());
+        }
     }
 
     /**
@@ -67,7 +86,7 @@ public final class BetterPvP extends JavaPlugin {
         mainConfig = new Config(this, "config");
         mainConfig.load();
 
-        // Obtener prefijo desde la configuración
+        // Get prefix from configuration
         prefix = mainConfig.getString("prefix");
     }
 
