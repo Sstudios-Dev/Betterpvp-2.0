@@ -1,7 +1,8 @@
 name: BetterPvP
-version: '${project.version}'
+version: '1.0.0-Stable'
 main: io.github.sstudiosdev.BetterPvP
 api-version: '1.13'
-author: srsstaff_tv, sstudios, 1vcb, pichema
+author: Sstudiosdev, staFF6773, Akit, pichema, 1vcbGH
 website: https://sstudiosdev.is-a.dev/
-depend: [Vault, PlaceholderAPI]
+depend: [Vault]
+softdepend: [PlaceholderAPI]
