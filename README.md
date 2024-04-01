@@ -33,6 +33,12 @@
 | :-------- | :------- | :-------------------------------- |
 | `0.0.1`      | `developers` | First **official** beta to know more details of the beta see the version [Tag 0.0.1](https://github.com/Sstudios-Dev/Betterpvp-2.0/releases/tag/0.0.1) |
 
+## Support
+
+For support, email Sstudiosdev@gmail.com or join our Discord Server.
+
+Invite: https://discord.gg/NbMhtfsgr6
+
 # Contributors
 
 Thank you very much for helping in the project ❤
