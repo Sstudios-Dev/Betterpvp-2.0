@@ -28,6 +28,7 @@
 | :-------- | :------- | :-------------------------------- |
 | `0.0.3`      | `developers` | In this third beta it comes with more features to see all the features check out the [Tag 0.0.3](https://github.com/Sstudios-Dev/Betterpvp-2.0/releases/tag/0.0.3) |
 
+
 | Version | Type     | Description                         |
 | :-------- | :------- | :-------------------------------- |
 | `0.0.2`      | `developers` | Second official **beta** in this beta there are more things to know more details look at the version [Tag 0.0.2](https://github.com/Sstudios-Dev/Betterpvp-2.0/releases/tag/0.0.2) |
