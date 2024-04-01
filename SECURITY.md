@@ -43,4 +43,4 @@ To protect our users, we commit to providing coordinated disclosure of vulnerabi
 We thank everyone who has contributed to improving the security of Betterpvp-2.0 through responsible disclosure of vulnerabilities.
 
 ---
-Last updated: [1/4/2024]
+Last updated: [1/4/2024].
