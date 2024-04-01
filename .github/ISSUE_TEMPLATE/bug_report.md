@@ -18,7 +18,7 @@ If applicable, add screenshots to help explain your problem.
 
 **Version (please complete the following information):**
  - Plugin Version: [example 1.0.0]
- - Server Version [example 1.9.1]
+ - Server Version [example 1.19.1 Paper]
  - What type of plugin version is it [example beta 0.0.1]
 
 **Additional context**
