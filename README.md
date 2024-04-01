@@ -24,6 +24,9 @@
 | `1.0.0` | `Public` | First **official** version of the plugin |
 
 #### Betas
+| Version | Type     | Description                         |
+| :-------- | :------- | :-------------------------------- |
+| `0.0.3`      | `developers` | In this third beta it comes with more features to see all the features check out the [Tag 0.0.3](https://github.com/Sstudios-Dev/Betterpvp-2.0/releases/tag/0.0.3) |
 
 | Version | Type     | Description                         |
 | :-------- | :------- | :-------------------------------- |
