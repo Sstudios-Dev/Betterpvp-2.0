@@ -41,9 +41,19 @@ public class BetterPvPReloadCommand extends BaseCommand {
             sender.sendMessage(ChatColorUtil.colorize("&f"));
             sender.sendMessage(ChatColorUtil.colorize("&3/betterpvp help &7- Show this help message"));
             sender.sendMessage(ChatColorUtil.colorize("&f"));
+            sender.sendMessage(ChatColorUtil.colorize("&3/betterpvp version &7- shows you the current plugin version"));
+            sender.sendMessage(ChatColorUtil.colorize("&f"));
             sender.sendMessage(ChatColorUtil.colorize("&3/pvp <on/off> &7- activates and deactivates player pvp"));
             sender.sendMessage(ChatColorUtil.colorize("&f"));
             sender.sendMessage(ChatColorUtil.colorize("&3/pvpworld <on/off> <world> &7- disable and enable global pvp for all players in that world"));
+        } else if (args.length == 1 && args[0].equalsIgnoreCase("version")) {
+            // Handle version argument
+            String pluginVersion = betterPvP.getDescription().getVersion();
+            String versionMessage = betterPvP.getMainConfig().getString("version-message");
+            if (versionMessage != null) {
+                versionMessage = versionMessage.replace("%version%", pluginVersion);
+                sender.sendMessage(ChatColorUtil.colorize(BetterPvP.prefix + " " + versionMessage));
+            }
         } else {
             // Incorrect use message
             sender.sendMessage(ChatColorUtil.colorize(BetterPvP.prefix + " &cUsage: /betterpvp <command>"));
@@ -55,6 +65,7 @@ public class BetterPvPReloadCommand extends BaseCommand {
         if (args.length == 1) {
             completions.add("reload");
             completions.add("help");
+            completions.add("version");
         }
         return completions;
     }
