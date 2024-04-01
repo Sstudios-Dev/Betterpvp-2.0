@@ -36,6 +36,15 @@ public class BetterPvPNoPvPCommand extends BaseCommand implements Listener {
         // Verify whether the "on" or "off" argument was provided.
         if (args.length == 1 && (args[0].equalsIgnoreCase("on") || args[0].equalsIgnoreCase("off"))) {
             if (hasPermission(sender)) {
+                // Check if the PvP status is already the same as the argument
+                if (args[0].equalsIgnoreCase("on") && pvpEnabled) {
+                    sender.sendMessage(ChatColorUtil.colorize(BetterPvP.prefix + " " + betterPvP.getMainConfig().getString("messages.pvp-already-enabled")));
+                    return;
+                } else if (args[0].equalsIgnoreCase("off") && !pvpEnabled) {
+                    sender.sendMessage(ChatColorUtil.colorize(BetterPvP.prefix + " " + betterPvP.getMainConfig().getString("messages.pvp-already-disabled")));
+                    return;
+                }
+
                 if (args[0].equalsIgnoreCase("off") && sender instanceof Player) {
                     Player player = (Player) sender;
                     long currentTime = System.currentTimeMillis();
