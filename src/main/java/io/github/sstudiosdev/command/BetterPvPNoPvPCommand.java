@@ -38,10 +38,12 @@ public class BetterPvPNoPvPCommand extends BaseCommand implements Listener {
             if (hasPermission(sender)) {
                 // Check if the PvP status is already the same as the argument
                 if (args[0].equalsIgnoreCase("on") && pvpEnabled) {
-                    sender.sendMessage(ChatColorUtil.colorize(BetterPvP.prefix + " " + betterPvP.getMainConfig().getString("messages.pvp-already-enabled")));
+                    String pvpreadyEnabled = betterPvP.getMainConfig().getString("pvp-already-enabled");
+                    sender.sendMessage(ChatColorUtil.colorize(BetterPvP.prefix + " " + pvpreadyEnabled));
                     return;
                 } else if (args[0].equalsIgnoreCase("off") && !pvpEnabled) {
-                    sender.sendMessage(ChatColorUtil.colorize(BetterPvP.prefix + " " + betterPvP.getMainConfig().getString("messages.pvp-already-disabled")));
+                    String pvpalreadyDisabled = betterPvP.getMainConfig().getString("pvp-already-disabled");
+                    sender.sendMessage(ChatColorUtil.colorize(BetterPvP.prefix + " " + pvpalreadyDisabled));
                     return;
                 }
 
@@ -110,9 +112,11 @@ public class BetterPvPNoPvPCommand extends BaseCommand implements Listener {
     @EventHandler
     public void onEntityDamage(EntityDamageEvent event) {
         if (event.getEntity() instanceof Player) {
-            if (!pvpEnabled && event.getCause() == EntityDamageEvent.DamageCause.ENTITY_ATTACK) {
+            if (!pvpEnabled && (event.getCause() == EntityDamageEvent.DamageCause.ENTITY_ATTACK ||
+                    event.getCause() == EntityDamageEvent.DamageCause.PROJECTILE)) {
                 event.setCancelled(true);
             }
         }
     }
+
 }
