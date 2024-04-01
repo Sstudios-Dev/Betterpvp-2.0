@@ -4,38 +4,73 @@ import org.bukkit.ChatColor
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
+import org.bukkit.configuration.file.FileConfiguration
 import org.bukkit.entity.Player
 import org.bukkit.plugin.java.JavaPlugin
 
-class colorname : JavaPlugin() {
+class ColorName : JavaPlugin() {
+    private lateinit var config: FileConfiguration
 
     override fun onEnable() {
-        // Register the "/colorname" command
-        getCommand("colorname")?.setExecutor(ColorNameCommand())
+        loadConfig()
+        registerCommands()
     }
 
-    class ColorNameCommand : CommandExecutor {
+    override fun onDisable() {
+        saveConfig()
+    }
+
+    private fun loadConfig() {
+        saveDefaultConfig()
+        config = getConfig()
+    }
+
+    private fun registerCommands() {
+        getCommand("colorname")?.setExecutor(ColorNameCommand(this))
+    }
+
+    class ColorNameCommand(private val plugin: ColorName) : CommandExecutor {
         override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<String>): Boolean {
-            // Check if the command was executed by a player
-            if (sender is Player) {
-                // Check if the player provided an argument
-                if (args.isNotEmpty()) {
-                    // Get the first argument as the color code
-                    val colorCode = args[0]
-                    // Check if the color code is valid
-                    if (ChatColor.getByChar(colorCode) != null) {
-                        // Change the player's name color
-                        sender.setDisplayName("${ChatColor.getByChar(colorCode)}${sender.name}")
-                        sender.sendMessage("Your name color has been changed!")
-                    } else {
-                        sender.sendMessage("Invalid color code. Use a valid Minecraft color code (0-9, a-f).")
-                    }
-                } else {
-                    sender.sendMessage("Usage: /colorname <colorcode>")
-                }
+            if (sender !is Player) {
+                sender.sendMessage("${ChatColor.RED}This command can only be executed by players.")
                 return true
             }
-            return false
+
+            if (!sender.hasPermission("colorname.use")) {
+                sender.sendMessage("${ChatColor.RED}You don't have permission to use this command.")
+                return true
+            }
+
+            if (args.isEmpty()) {
+                sender.sendMessage("${ChatColor.RED}Usage: /colorname <color>")
+                return true
+            }
+
+            val colorArg = args[0].toLowerCase()
+            val color = getColor(colorArg)
+
+            if (color == null) {
+                sender.sendMessage("${ChatColor.RED}Invalid color. Use a color name or a valid Minecraft color code (0-9, a-f).")
+                return true
+            }
+
+            val coloredName = "${color}${sender.name}${ChatColor.RESET}"
+            sender.setDisplayName(coloredName)
+            sender.sendMessage("${ChatColor.GREEN}Your name color has been changed to ${color}${color.name}${ChatColor.GREEN}!")
+
+            return true
+        }
+
+        private fun getColor(colorArg: String): ChatColor? {
+            // Check if the argument is a valid color name
+            val colorByName = ChatColor.values().find { it.name.equals(colorArg, true) }
+            if (colorByName != null) return colorByName
+
+            // Check if the argument is a valid color code
+            val colorByCode = ChatColor.getByChar(colorArg)
+            if (colorByCode != null && colorByCode.isColor) return colorByCode
+
+            return null
         }
     }
 }
