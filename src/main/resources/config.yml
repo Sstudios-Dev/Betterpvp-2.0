@@ -33,6 +33,7 @@ pvp-already-enabled: "&aPvP is already enabled."
 pvp-already-disabled: "&cPvP is already disabled."
 respawn_message: "&aYou have finished respawn protection!"
 protection_message: "&cYou cannot take damage while you have respawn protection!"
+version-message: "&3Current plugin version: &7%version%"
 
 # ============================================================
 # |                        AntiKillAbuse                     |
