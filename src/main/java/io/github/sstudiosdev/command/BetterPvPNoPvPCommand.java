@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
@@ -26,6 +27,8 @@ public class BetterPvPNoPvPCommand extends BaseCommand implements Listener {
     private boolean pvpEnabled = true;
     private boolean pvpAutoEnabled = true;
     private BukkitTask pvpAutoEnableTask;
+    private final Map<Player, Long> pickupCooldowns = new HashMap<>();
+    private final long pickupCooldownTime = 10000;
 
     public BetterPvPNoPvPCommand(final BetterPvP betterPvP) {
         super("pvp", new ArrayList<>(), "betterpvp.pvp", true);
@@ -111,6 +114,19 @@ public class BetterPvPNoPvPCommand extends BaseCommand implements Listener {
         String noPermissionMessage = betterPvP.getMainConfig().getString("no-permission");
         noPermissionMessage = noPermissionMessage.replace("%player_name%", sender.getName());
         sender.sendMessage(ChatColorUtil.colorize(BetterPvP.prefix + " " + noPermissionMessage));
+    }
+
+    @EventHandler
+    public void onPlayerPickupItem(PlayerPickupItemEvent event) {
+        Player player = event.getPlayer();
+        if (!pvpEnabled) {
+            if (!pickupCooldowns.containsKey(player) || pickupCooldowns.get(player) + pickupCooldownTime < System.currentTimeMillis()) {
+                pickupCooldowns.put(player, System.currentTimeMillis());
+                String pickupDisabledMessage = betterPvP.getMainConfig().getString("pickup-disabled-message");
+                player.sendMessage(ChatColorUtil.colorize(BetterPvP.prefix + " " + pickupDisabledMessage));
+            }
+            event.setCancelled(true);
+        }
     }
 
     @EventHandler
