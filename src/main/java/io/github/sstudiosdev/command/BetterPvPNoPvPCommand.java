@@ -25,6 +25,7 @@ public class BetterPvPNoPvPCommand extends BaseCommand implements Listener {
     private final Map<Player, Long> cooldowns = new HashMap<>();
 
     private boolean pvpEnabled = true;
+    private boolean enablePickupEvent;
     private boolean pvpAutoEnabled = true;
     private BukkitTask pvpAutoEnableTask;
     private final Map<Player, Long> pickupCooldowns = new HashMap<>();
@@ -33,6 +34,7 @@ public class BetterPvPNoPvPCommand extends BaseCommand implements Listener {
     public BetterPvPNoPvPCommand(final BetterPvP betterPvP) {
         super("pvp", new ArrayList<>(), "betterpvp.pvp", true);
         this.betterPvP = betterPvP;
+        this.enablePickupEvent = betterPvP.getMainConfig().getBoolean("tools.enable-pickup-event");
 
         PluginManager pluginManager = betterPvP.getServer().getPluginManager();
         pluginManager.registerEvents(this, betterPvP);
@@ -118,6 +120,10 @@ public class BetterPvPNoPvPCommand extends BaseCommand implements Listener {
 
     @EventHandler
     public void onPlayerPickupItem(PlayerPickupItemEvent event) {
+        if (!enablePickupEvent) {
+            return;
+        }
+
         Player player = event.getPlayer();
         if (!pvpEnabled) {
             if (!pickupCooldowns.containsKey(player) || pickupCooldowns.get(player) + pickupCooldownTime < System.currentTimeMillis()) {
