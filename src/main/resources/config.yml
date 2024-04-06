@@ -31,6 +31,7 @@ pvpworld-disabled: "&cPvP combat has been disabled in the world %world%."
 cooldown-error-message: "&cYou must wait before using this command again."
 pvp-already-enabled: "&aPvP is already enabled."
 pvp-already-disabled: "&cPvP is already disabled."
+pvp-reactivate-message: "&cYour pvp time is over to use the command again you have to wait."
 respawn_message: "&aYou have finished respawn protection!"
 protection_message: "&cYou cannot take damage while you have respawn protection!"
 version-message: "&3Current plugin version: &7%version%"
@@ -70,6 +71,7 @@ player-kills:
 
 cooldown:
   pvp-cooldown: 60
+  pvp-auto-enable-time: 300
 
 # ============================================================
 # |                        RespawnProtection                 |
@@ -80,7 +82,7 @@ cooldown:
 
 respawn-protection:
   enabled: true
-  duration: 10
+  duration: 10 # time in seconds
 
 # End Config.yml
 # Thank you pichema ❤
