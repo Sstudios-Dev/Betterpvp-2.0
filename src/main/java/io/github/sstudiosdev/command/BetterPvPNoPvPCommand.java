@@ -11,6 +11,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.plugin.PluginManager;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,6 +24,8 @@ public class BetterPvPNoPvPCommand extends BaseCommand implements Listener {
     private final Map<Player, Long> cooldowns = new HashMap<>();
 
     private boolean pvpEnabled = true;
+    private boolean pvpAutoEnabled = true;
+    private BukkitTask pvpAutoEnableTask;
 
     public BetterPvPNoPvPCommand(final BetterPvP betterPvP) {
         super("pvp", new ArrayList<>(), "betterpvp.pvp", true);
@@ -33,10 +37,8 @@ public class BetterPvPNoPvPCommand extends BaseCommand implements Listener {
 
     @Override
     public void execute(CommandSender sender, String[] args) {
-        // Verify whether the "on" or "off" argument was provided.
         if (args.length == 1 && (args[0].equalsIgnoreCase("on") || args[0].equalsIgnoreCase("off"))) {
             if (hasPermission(sender)) {
-                // Check if the PvP status is already the same as the argument
                 if (args[0].equalsIgnoreCase("on") && pvpEnabled) {
                     String pvpreadyEnabled = betterPvP.getMainConfig().getString("pvp-already-enabled");
                     sender.sendMessage(ChatColorUtil.colorize(BetterPvP.prefix + " " + pvpreadyEnabled));
@@ -50,7 +52,7 @@ public class BetterPvPNoPvPCommand extends BaseCommand implements Listener {
                 if (args[0].equalsIgnoreCase("off") && sender instanceof Player) {
                     Player player = (Player) sender;
                     long currentTime = System.currentTimeMillis();
-                    long defaultCooldown = 60L; // Default value in seconds
+                    long defaultCooldown = 60L;
                     long cooldownTime = betterPvP.getMainConfig().getLong("cooldown.pvp-cooldown", defaultCooldown) * 1000;
                     if (cooldowns.containsKey(player) && cooldowns.get(player) + cooldownTime > currentTime) {
                         String CooldownError = betterPvP.getMainConfig().getString("cooldown-error-message");
@@ -60,21 +62,34 @@ public class BetterPvPNoPvPCommand extends BaseCommand implements Listener {
                     cooldowns.put(player, currentTime);
                 }
 
-                // Get the message from the configuration
                 String pvpToggleMessage = betterPvP.getMainConfig().getString("pvptoggle");
-
-                // Replace "%status%" with the status provided in the command
                 pvpToggleMessage = pvpToggleMessage.replace("%status%", args[0]);
 
                 pvpEnabled = args[0].equalsIgnoreCase("on");
 
-                // Send success message
                 sender.sendMessage(ChatColorUtil.colorize(BetterPvP.prefix + " " + pvpToggleMessage));
+
+                if (args[0].equalsIgnoreCase("off")) {
+                    pvpAutoEnabled = false;
+                    if (pvpAutoEnableTask != null) {
+                        pvpAutoEnableTask.cancel();
+                    }
+                    long autoEnableTime = betterPvP.getMainConfig().getLong("cooldown.pvp-auto-enable-time", 300); // 300 seconds by default
+                    pvpAutoEnableTask = new BukkitRunnable() {
+                        @Override
+                        public void run() {
+                            pvpEnabled = true;
+                            pvpAutoEnabled = true;
+                            pvpAutoEnableTask = null;
+                            String reactivateMessage = betterPvP.getMainConfig().getString("pvp-reactivate-message");
+                            sender.sendMessage(ChatColorUtil.colorize(BetterPvP.prefix + " " + reactivateMessage));
+                        }
+                    }.runTaskLater(betterPvP, autoEnableTime * 20); // Convert seconds to ticks
+                }
             } else {
                 sendNoPermissionMessage(sender);
             }
         } else {
-            // Incorrect use message
             sender.sendMessage(ChatColorUtil.colorize(BetterPvP.prefix + " Usage: /pvp <on/off>"));
         }
     }
@@ -88,21 +103,10 @@ public class BetterPvPNoPvPCommand extends BaseCommand implements Listener {
         return completions;
     }
 
-    /**
-     * Verify if the player has the necessary permissions.
-     *
-     * @param sender The sender of the command.
-     * @return True if the player has permissions, false otherwise.
-     */
     private boolean hasPermission(CommandSender sender) {
         return sender.hasPermission("betterpvp.pvp") || sender instanceof ConsoleCommandSender || sender.isOp();
     }
 
-    /**
-     * Sends the lack of permissions message to the player.
-     *
-     * @param sender The sender of the command.
-     */
     private void sendNoPermissionMessage(CommandSender sender) {
         String noPermissionMessage = betterPvP.getMainConfig().getString("no-permission");
         noPermissionMessage = noPermissionMessage.replace("%player_name%", sender.getName());
@@ -118,5 +122,4 @@ public class BetterPvPNoPvPCommand extends BaseCommand implements Listener {
             }
         }
     }
-
 }
