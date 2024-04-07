@@ -43,6 +43,8 @@ For support, email Sstudiosdev@gmail.com or join our Discord Server.
 
 Invite: https://discord.gg/NbMhtfsgr6
 
+Donar: https://www.paypal.com/paypalme/sstudiosDev
+
 # Contributors
 
 Thank you very much for helping in the project ❤
