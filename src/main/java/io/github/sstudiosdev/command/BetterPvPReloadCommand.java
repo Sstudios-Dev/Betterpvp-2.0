@@ -47,6 +47,8 @@ public class BetterPvPReloadCommand extends BaseCommand {
             sender.sendMessage(ChatColorUtil.colorize("&f"));
             sender.sendMessage(ChatColorUtil.colorize("&3/pvp <on/off> &7- activates and deactivates player pvp"));
             sender.sendMessage(ChatColorUtil.colorize("&f"));
+            sender.sendMessage(ChatColorUtil.colorize("&4/pvp history &7- Show your pvpToogle history"));
+            sender.sendMessage(ChatColorUtil.colorize("&f"));
             sender.sendMessage(ChatColorUtil.colorize("&3/pvpworld <on/off> <world> &7- disable and enable global pvp for all players in that world"));
         } else if (args.length == 1 && args[0].equalsIgnoreCase("version")) {
             // Handle version argument
