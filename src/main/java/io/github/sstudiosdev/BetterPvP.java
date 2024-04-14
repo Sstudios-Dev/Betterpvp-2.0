@@ -2,6 +2,7 @@ package io.github.sstudiosdev;
 
 import io.github.sstudiosdev.command.BetterPvPNoPvPCommand;
 import io.github.sstudiosdev.command.BetterPvPReloadCommand;
+import io.github.sstudiosdev.command.BtrMain;
 import io.github.sstudiosdev.command.PvPWorldCommand;
 import io.github.sstudiosdev.listener.AntiKillAbuseListener;
 import io.github.sstudiosdev.listener.PlayerDeathListener;
@@ -14,9 +15,7 @@ import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.nio.file.Files;
 
 /**
@@ -71,7 +70,7 @@ public final class BetterPvP extends JavaPlugin {
      */
     @Override
     public void onDisable() {
-        sendMessageToConsole("&3BetterPvP is being disabled; this does not affect anything.");
+        sendMessageToConsole("&3BetterPvP is being disabled: this does not affect anything.");
         sendMessageToConsole("&7Goodbye!");
     }
 
@@ -115,6 +114,7 @@ public final class BetterPvP extends JavaPlugin {
         CommandMapUtil.registerCommand(this, new BetterPvPReloadCommand(this));
         CommandMapUtil.registerCommand(this, new BetterPvPNoPvPCommand(this));
         CommandMapUtil.registerCommand(this, new PvPWorldCommand(this));
+        CommandMapUtil.registerCommand(this, new BtrMain(this));
     }
 
     /**
@@ -122,9 +122,9 @@ public final class BetterPvP extends JavaPlugin {
      */
     private void displayConsoleInfo() {
         sendMessageToConsole("     &3_____");
-        sendMessageToConsole("   &3|   __  \\  &3BetterPvP &7v1.0.0        ");
+        sendMessageToConsole("   &3|   __  \\  &3BetterPvP &7v1.0.0-Stable       ");
         sendMessageToConsole("   &3|  |  | |  &7Running on Bukkit - Paper  ");
-        sendMessageToConsole("   &3|  |___  |    &fPlugin by &3[srstaff_tv, sstudios, 1vcb, Updated by pichema]");
+        sendMessageToConsole("   &3|  |___  |    &fPlugin by &3[srstaff_tv, sstudios, 1vcb, Updated by pichema and more]");
         sendMessageToConsole("   &3|  |__| |  ");
         sendMessageToConsole("   &3|_____ /   ");
         sendMessageToConsole("");
