@@ -78,6 +78,13 @@ tools:
   enable-pickup-event: true
 
 # ============================================================
+# |                        PvP World                         |
+# ============================================================
+
+# In this module you will find all the configuration of the command
+# /pvpworld <on/off> <world> as their events among other things
+
+# ============================================================
 # |                        RespawnProtection                 |
 # ============================================================
 
