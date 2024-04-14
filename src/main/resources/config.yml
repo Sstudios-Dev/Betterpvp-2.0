@@ -23,6 +23,7 @@ load-license-file: true
 # Message Module: Here you can translate all plugin messages.
 
 no-permission: "&cSorry, but you (%player_name%) do not have permission to execute this command."
+command-disabled-world: "&cThis command is disabled in this world, please wait for them to activate it."
 world-not-found: "&cError! The '%world%' world was not found."
 kill-reward: "&aYou have received %amount% for killing a player!"
 pvptoggle: "&aPvP is now %status%."
@@ -83,6 +84,10 @@ tools:
 
 # In this module you will find all the configuration of the command
 # /pvpworld <on/off> <world> as their events among other things
+
+pvpworld-enabled-worlds:
+  - example
+  - example2
 
 # ============================================================
 # |                        RespawnProtection                 |
