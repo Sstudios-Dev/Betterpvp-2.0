@@ -15,6 +15,8 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,7 +25,7 @@ import java.util.Map;
 public class BetterPvPNoPvPCommand extends BaseCommand implements Listener {
     private final BetterPvP betterPvP;
     private final Map<Player, Long> cooldowns = new HashMap<>();
-
+    private final List<String> pvpChangeLog = new ArrayList<>();
     private boolean pvpEnabled = true;
     private boolean enablePickupEvent;
     private boolean pvpAutoEnabled = true;
@@ -42,6 +44,11 @@ public class BetterPvPNoPvPCommand extends BaseCommand implements Listener {
 
     @Override
     public void execute(CommandSender sender, String[] args) {
+        if (args.length == 1 && args[0].equalsIgnoreCase("history")) {
+            showChangeLog(sender);
+            return;
+        }
+
         if (args.length == 1 && (args[0].equalsIgnoreCase("on") || args[0].equalsIgnoreCase("off"))) {
             if (hasPermission(sender)) {
                 if (args[0].equalsIgnoreCase("on") && pvpEnabled) {
@@ -91,6 +98,11 @@ public class BetterPvPNoPvPCommand extends BaseCommand implements Listener {
                         }
                     }.runTaskLater(betterPvP, autoEnableTime * 20); // Convert seconds to ticks
                 }
+
+                // Registro de cambios
+                String status = args[0].equalsIgnoreCase("on") ? "enabled" : "disabled";
+                String message = String.format("PvP %s by %s at %s", status, sender.getName(), LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+                pvpChangeLog.add(message);
             } else {
                 sendNoPermissionMessage(sender);
             }
@@ -99,14 +111,17 @@ public class BetterPvPNoPvPCommand extends BaseCommand implements Listener {
         }
     }
 
+
     public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
         List<String> completions = new ArrayList<>();
         if (args.length == 1) {
             completions.add("on");
             completions.add("off");
+            completions.add("history");
         }
         return completions;
     }
+
 
     private boolean hasPermission(CommandSender sender) {
         return sender.hasPermission("betterpvp.pvp") || sender instanceof ConsoleCommandSender || sender.isOp();
@@ -142,6 +157,14 @@ public class BetterPvPNoPvPCommand extends BaseCommand implements Listener {
                     event.getCause() == EntityDamageEvent.DamageCause.PROJECTILE)) {
                 event.setCancelled(true);
             }
+        }
+    }
+
+    public void showChangeLog(CommandSender sender) {
+        String PvPHisory = betterPvP.getMainConfig().getString("pvp-history");
+        sender.sendMessage(ChatColorUtil.colorize(BetterPvP.prefix + " " + PvPHisory));
+        for (String entry : pvpChangeLog) {
+            sender.sendMessage(ChatColorUtil.colorize(" - " + entry));
         }
     }
 }
