@@ -43,6 +43,8 @@ public class BetterPvPReloadCommand extends BaseCommand {
             sender.sendMessage(ChatColorUtil.colorize("&f"));
             sender.sendMessage(ChatColorUtil.colorize("&3/betterpvp version &7- shows you the current plugin version"));
             sender.sendMessage(ChatColorUtil.colorize("&f"));
+            sender.sendMessage(ChatColorUtil.colorize("&3/btr locate <language_code>&7 - available languages"));
+            sender.sendMessage(ChatColorUtil.colorize("&f"));
             sender.sendMessage(ChatColorUtil.colorize("&3/pvp <on/off> &7- activates and deactivates player pvp"));
             sender.sendMessage(ChatColorUtil.colorize("&f"));
             sender.sendMessage(ChatColorUtil.colorize("&3/pvpworld <on/off> <world> &7- disable and enable global pvp for all players in that world"));
