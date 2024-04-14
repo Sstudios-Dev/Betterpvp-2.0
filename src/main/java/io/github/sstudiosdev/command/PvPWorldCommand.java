@@ -21,10 +21,12 @@ import java.util.Map;
 public class PvPWorldCommand extends BaseCommand implements Listener {
     private final BetterPvP betterPvP;
     private final Map<String, Boolean> pvpWorlds = new HashMap<>();
+    private final List<String> enabledWorlds;
 
     public PvPWorldCommand(final BetterPvP betterPvP) {
         super("pvpworld", new ArrayList<>(), "betterpvp.pvpworld", true);
         this.betterPvP = betterPvP;
+        this.enabledWorlds = betterPvP.getMainConfig().getStringList("pvpworld-enabled-worlds");
 
         PluginManager pluginManager = betterPvP.getServer().getPluginManager();
         pluginManager.registerEvents(this, betterPvP);
@@ -36,12 +38,17 @@ public class PvPWorldCommand extends BaseCommand implements Listener {
             if (hasPermission(sender)) {
                 World world = betterPvP.getServer().getWorld(args[1]);
                 if (world != null) {
-                    pvpWorlds.put(world.getName(), args[0].equalsIgnoreCase("on"));
-                    String message = args[0].equalsIgnoreCase("on") ?
-                            betterPvP.getMainConfig().getString("pvpworld-enabled") :
-                            betterPvP.getMainConfig().getString("pvpworld-disabled");
-                    message = message.replace("%world%", world.getName());
-                    sender.sendMessage(ChatColorUtil.colorize(BetterPvP.prefix + " " + message));
+                    if (!enabledWorlds.contains(world.getName())) {
+                        pvpWorlds.put(world.getName(), args[0].equalsIgnoreCase("on"));
+                        String message = args[0].equalsIgnoreCase("on") ?
+                                betterPvP.getMainConfig().getString("pvpworld-enabled") :
+                                betterPvP.getMainConfig().getString("pvpworld-disabled");
+                        message = message.replace("%world%", world.getName());
+                        sender.sendMessage(ChatColorUtil.colorize(BetterPvP.prefix + " " + message));
+                    } else {
+                        String CommandDisabledWorld = betterPvP.getMainConfig().getString("command-disabled-world");
+                        sender.sendMessage(ChatColorUtil.colorize(BetterPvP.prefix + " " + CommandDisabledWorld));
+                    }
                 } else {
                     sendWorldNoFound(sender, args[1]);
                 }
