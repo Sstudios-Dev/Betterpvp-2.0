@@ -66,15 +66,15 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.8.8-R0.1-SNAPSHOT</version>
-            <scope>provided</scope> <!-- Provided scope as it's provided by the Spigot server -->
+            <version>1.20.4-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
         </dependency>
 
         <!-- Commons IO Dependency -->
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
-            <version>2.16.1</version>
+            <version>2.15.1</version>
         </dependency>
 
         <!-- Apache Commons Lang Dependency -->
