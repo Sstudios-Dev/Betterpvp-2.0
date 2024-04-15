@@ -33,7 +33,7 @@ pvpworld-disabled: "&cPvP combat has been disabled in the world %world%."
 cooldown-error-message: "&cYou must wait before using this command again."
 pvp-already-enabled: "&aPvP is already enabled."
 pvp-already-disabled: "&cPvP is already disabled."
-pvp-reactivate-message: "&cYour pvp time is over to use the command again you have to wait."
+pvp-reactivate: "&cYour pvp time is over to use the command again you have to wait."
 pickup-disabled-message: "&cYou cannot pick up items from the ground while PvP is disabled."
 respawn_message: "&aYou have finished respawn protection!"
 protection_message: "&cYou cannot take damage while you have respawn protection!"
@@ -79,6 +79,13 @@ cooldown:
 
 tools:
   enable-pickup-event: true
+
+# List of colors that can be put on the bossbar
+# https://hub.spigotmc.org/javadocs/spigot/org/bukkit/boss/BarColor.html
+
+bossbar:
+  default-colors:
+    - GREEN # Do not place more colors here you can only place one
 
 # ============================================================
 # |                        PvP World                         |
