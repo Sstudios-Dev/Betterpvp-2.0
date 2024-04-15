@@ -3,7 +3,11 @@ package io.github.sstudiosdev.command;
 import io.github.sstudiosdev.BetterPvP;
 import io.github.sstudiosdev.util.ChatColorUtil;
 import io.github.sstudiosdev.util.command.BaseCommand;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.boss.BarColor;
+import org.bukkit.boss.BarStyle;
+import org.bukkit.boss.BossBar;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
@@ -32,6 +36,7 @@ public class BetterPvPNoPvPCommand extends BaseCommand implements Listener {
     private BukkitTask pvpAutoEnableTask;
     private final Map<Player, Long> pickupCooldowns = new HashMap<>();
     private final long pickupCooldownTime = 10000;
+    private BossBar autoEnableBossBar;
 
     public BetterPvPNoPvPCommand(final BetterPvP betterPvP) {
         super("pvp", new ArrayList<>(), "betterpvp.pvp", true);
@@ -40,6 +45,9 @@ public class BetterPvPNoPvPCommand extends BaseCommand implements Listener {
 
         PluginManager pluginManager = betterPvP.getServer().getPluginManager();
         pluginManager.registerEvents(this, betterPvP);
+
+        autoEnableBossBar = Bukkit.createBossBar("PvP will activate in 5 minutes", BarColor.GREEN, BarStyle.SOLID);
+        autoEnableBossBar.setVisible(false);
     }
 
     @Override
@@ -61,17 +69,28 @@ public class BetterPvPNoPvPCommand extends BaseCommand implements Listener {
                     return;
                 }
 
-                if (args[0].equalsIgnoreCase("off") && sender instanceof Player) {
-                    Player player = (Player) sender;
-                    long currentTime = System.currentTimeMillis();
-                    long defaultCooldown = 60L;
-                    long cooldownTime = betterPvP.getMainConfig().getLong("cooldown.pvp-cooldown", defaultCooldown) * 1000;
-                    if (cooldowns.containsKey(player) && cooldowns.get(player) + cooldownTime > currentTime) {
-                        String CooldownError = betterPvP.getMainConfig().getString("cooldown-error-message");
-                        sender.sendMessage(ChatColorUtil.colorize(BetterPvP.prefix + " " + CooldownError));
-                        return;
+                if (args[0].equalsIgnoreCase("off")) {
+                    // Mostrar la BossBar al jugador
+                    if (sender instanceof Player) {
+                        Player player = (Player) sender;
+                        autoEnableBossBar.addPlayer(player);
+                        autoEnableBossBar.setVisible(true);
                     }
-                    cooldowns.put(player, currentTime);
+
+                    pvpAutoEnabled = false;
+                    if (pvpAutoEnableTask != null) {
+                        pvpAutoEnableTask.cancel();
+                    }
+                    startAutoEnableBossBar();
+                }
+
+                if (args[0].equalsIgnoreCase("on")) {
+                    // Ocultar y quitar la BossBar al activar el PvP
+                    if (sender instanceof Player) {
+                        Player player = (Player) sender;
+                        autoEnableBossBar.removePlayer(player);
+                        autoEnableBossBar.setVisible(false);
+                    }
                 }
 
                 String pvpToggleMessage = betterPvP.getMainConfig().getString("pvptoggle");
@@ -80,24 +99,6 @@ public class BetterPvPNoPvPCommand extends BaseCommand implements Listener {
                 pvpEnabled = args[0].equalsIgnoreCase("on");
 
                 sender.sendMessage(ChatColorUtil.colorize(BetterPvP.prefix + " " + pvpToggleMessage));
-
-                if (args[0].equalsIgnoreCase("off")) {
-                    pvpAutoEnabled = false;
-                    if (pvpAutoEnableTask != null) {
-                        pvpAutoEnableTask.cancel();
-                    }
-                    long autoEnableTime = betterPvP.getMainConfig().getLong("cooldown.pvp-auto-enable-time", 300); // 300 seconds by default
-                    pvpAutoEnableTask = new BukkitRunnable() {
-                        @Override
-                        public void run() {
-                            pvpEnabled = true;
-                            pvpAutoEnabled = true;
-                            pvpAutoEnableTask = null;
-                            String reactivateMessage = betterPvP.getMainConfig().getString("pvp-reactivate-message");
-                            sender.sendMessage(ChatColorUtil.colorize(BetterPvP.prefix + " " + reactivateMessage));
-                        }
-                    }.runTaskLater(betterPvP, autoEnableTime * 20); // Convert seconds to ticks
-                }
 
                 // Registro de cambios
                 String status = args[0].equalsIgnoreCase("on") ? "enabled" : "disabled";
@@ -166,5 +167,33 @@ public class BetterPvPNoPvPCommand extends BaseCommand implements Listener {
         for (String entry : pvpChangeLog) {
             sender.sendMessage(ChatColorUtil.colorize(" - " + entry));
         }
+    }
+
+    private void startAutoEnableBossBar() {
+        if (pvpAutoEnableTask != null) {
+            pvpAutoEnableTask.cancel();
+        }
+        long autoEnableTime = betterPvP.getMainConfig().getLong("cooldown.pvp-auto-enable-time", 300);
+        pvpAutoEnableTask = new BukkitRunnable() {
+            int timeLeft = (int) autoEnableTime;
+
+            @Override
+            public void run() {
+                if (timeLeft > 0) {
+                    autoEnableBossBar.setTitle("PvP activará en " + timeLeft + " segundos");
+                    autoEnableBossBar.setProgress((double) timeLeft / autoEnableTime);
+                    timeLeft--;
+                } else {
+                    pvpEnabled = true;
+                    pvpAutoEnabled = true;
+                    pvpAutoEnableTask = null;
+                    autoEnableBossBar.setVisible(false);
+                    autoEnableBossBar.removeAll();
+                    String reactivateMessage = betterPvP.getMainConfig().getString("pvp-reactivate");
+                    Bukkit.broadcastMessage(ChatColorUtil.colorize(BetterPvP.prefix + " " + reactivateMessage));
+                    cancel(); // Detener el BukkitRunnable
+                }
+            }
+        }.runTaskTimer(betterPvP, 0, 20);
     }
 }
