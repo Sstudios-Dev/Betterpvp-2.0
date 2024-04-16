@@ -2,7 +2,7 @@ package io.github.sstudiosdev.util.command;
 
 import io.github.sstudiosdev.BetterPvP;
 import lombok.Setter;
-import org.apache.commons.lang.math.NumberUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
