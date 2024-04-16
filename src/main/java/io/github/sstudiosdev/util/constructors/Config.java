@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
  * Clase utilitaria para manejar archivos de configuración YAML en Bukkit/Spigot.
  */
 @Getter
-public class Config {
+public class    Config {
 
     // Archivo de configuración
     private final File file;
@@ -277,4 +277,5 @@ public class Config {
     public long getLong(final String path, final long defaultValue) {
         return bukkitConfiguration.getLong(path, defaultValue);
     }
+
 }
