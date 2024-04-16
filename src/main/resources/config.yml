@@ -40,6 +40,7 @@ protection_message: "&cYou cannot take damage while you have respawn protection!
 version-message: "&3Current plugin version: &7%version%"
 invalid-language: "&cInvalid language. Available languages: es, eng, ca, jp, ru"
 github-repository: "&aGitHub repository link:   %link%"
+
 # ============================================================
 # |                        AntiKillAbuse                     |
 # ============================================================
@@ -84,8 +85,9 @@ tools:
 # https://hub.spigotmc.org/javadocs/spigot/org/bukkit/boss/BarColor.html
 
 bossbar:
+  title: "&cPvP will activate in %time% seconds"
   default-colors:
-    - GREEN # Do not place more colors here you can only place one
+    - RED # Do not place more colors here you can only place one
 
 # ============================================================
 # |                        PvP World                         |
