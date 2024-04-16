@@ -46,7 +46,13 @@ public class BetterPvPNoPvPCommand extends BaseCommand implements Listener {
         PluginManager pluginManager = betterPvP.getServer().getPluginManager();
         pluginManager.registerEvents(this, betterPvP);
 
-        autoEnableBossBar = Bukkit.createBossBar("PvP will activate in 5 minutes", BarColor.GREEN, BarStyle.SOLID);
+        List<String> defaultBossBarColors = betterPvP.getMainConfig().getStringList("bossbar.default-colors");
+
+        if (defaultBossBarColors.isEmpty()) {
+            defaultBossBarColors.add("RED");
+        }
+        BarColor bossBarColor = BarColor.valueOf(defaultBossBarColors.get(0));
+        autoEnableBossBar = Bukkit.createBossBar("PvP will activate in 5 minutes", bossBarColor, BarStyle.SOLID);
         autoEnableBossBar.setVisible(false);
     }
 
@@ -70,7 +76,6 @@ public class BetterPvPNoPvPCommand extends BaseCommand implements Listener {
                 }
 
                 if (args[0].equalsIgnoreCase("off")) {
-                    // Mostrar la BossBar al jugador
                     if (sender instanceof Player) {
                         Player player = (Player) sender;
                         autoEnableBossBar.addPlayer(player);
@@ -85,7 +90,6 @@ public class BetterPvPNoPvPCommand extends BaseCommand implements Listener {
                 }
 
                 if (args[0].equalsIgnoreCase("on")) {
-                    // Ocultar y quitar la BossBar al activar el PvP
                     if (sender instanceof Player) {
                         Player player = (Player) sender;
                         autoEnableBossBar.removePlayer(player);
@@ -100,7 +104,6 @@ public class BetterPvPNoPvPCommand extends BaseCommand implements Listener {
 
                 sender.sendMessage(ChatColorUtil.colorize(BetterPvP.prefix + " " + pvpToggleMessage));
 
-                // Registro de cambios
                 String status = args[0].equalsIgnoreCase("on") ? "enabled" : "disabled";
                 String message = String.format("PvP %s by %s at %s", status, sender.getName(), LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
                 pvpChangeLog.add(message);
@@ -180,7 +183,9 @@ public class BetterPvPNoPvPCommand extends BaseCommand implements Listener {
             @Override
             public void run() {
                 if (timeLeft > 0) {
-                    autoEnableBossBar.setTitle("PvP activará en " + timeLeft + " segundos");
+                    String autoEnableTitle = betterPvP.getMainConfig().getString("bossbar.title");
+
+                    autoEnableBossBar.setTitle(ChatColorUtil.colorize(autoEnableTitle.replace("%time%", String.valueOf(timeLeft))));
                     autoEnableBossBar.setProgress((double) timeLeft / autoEnableTime);
                     timeLeft--;
                 } else {
@@ -191,7 +196,7 @@ public class BetterPvPNoPvPCommand extends BaseCommand implements Listener {
                     autoEnableBossBar.removeAll();
                     String reactivateMessage = betterPvP.getMainConfig().getString("pvp-reactivate");
                     Bukkit.broadcastMessage(ChatColorUtil.colorize(BetterPvP.prefix + " " + reactivateMessage));
-                    cancel(); // Detener el BukkitRunnable
+                    cancel();
                 }
             }
         }.runTaskTimer(betterPvP, 0, 20);
