@@ -28,7 +28,7 @@ import java.util.Map;
 
 public class BetterPvPNoPvPCommand extends BaseCommand implements Listener {
     private final BetterPvP betterPvP;
-    private final Map<Player, Long> cooldowns = new HashMap<>();
+    private final Map<Player, Boolean> pvpStatus = new HashMap<>();
     private final List<String> pvpChangeLog = new ArrayList<>();
     private boolean pvpEnabled = true;
     private boolean enablePickupEvent;
@@ -82,6 +82,7 @@ public class BetterPvPNoPvPCommand extends BaseCommand implements Listener {
                         autoEnableBossBar.setVisible(true);
                     }
 
+                    pvpStatus.put((Player) sender, false); // Almacena que el jugador desactivó el PvP
                     pvpAutoEnabled = false;
                     if (pvpAutoEnableTask != null) {
                         pvpAutoEnableTask.cancel();
@@ -115,7 +116,6 @@ public class BetterPvPNoPvPCommand extends BaseCommand implements Listener {
         }
     }
 
-
     public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
         List<String> completions = new ArrayList<>();
         if (args.length == 1) {
@@ -125,7 +125,6 @@ public class BetterPvPNoPvPCommand extends BaseCommand implements Listener {
         }
         return completions;
     }
-
 
     private boolean hasPermission(CommandSender sender) {
         return sender.hasPermission("betterpvp.pvp") || sender instanceof ConsoleCommandSender || sender.isOp();
@@ -139,18 +138,12 @@ public class BetterPvPNoPvPCommand extends BaseCommand implements Listener {
 
     @EventHandler
     public void onPlayerPickupItem(PlayerPickupItemEvent event) {
-        if (!enablePickupEvent) {
-            return;
-        }
-
         Player player = event.getPlayer();
-        if (!pvpEnabled) {
-            if (!pickupCooldowns.containsKey(player) || pickupCooldowns.get(player) + pickupCooldownTime < System.currentTimeMillis()) {
-                pickupCooldowns.put(player, System.currentTimeMillis());
-                String pickupDisabledMessage = betterPvP.getMainConfig().getString("pickup-disabled-message");
-                player.sendMessage(ChatColorUtil.colorize(BetterPvP.prefix + " " + pickupDisabledMessage));
-            }
+        if (pvpStatus.containsKey(player) && !pvpStatus.get(player)) {
+            // El jugador ha desactivado el PvP, cancela el evento solo para este jugador
             event.setCancelled(true);
+            String pickupDisabledMessage = betterPvP.getMainConfig().getString("pickup-disabled-message");
+            player.sendMessage(ChatColorUtil.colorize(BetterPvP.prefix + " " + pickupDisabledMessage));
         }
     }
 
