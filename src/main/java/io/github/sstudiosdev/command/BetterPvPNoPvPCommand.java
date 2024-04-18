@@ -96,6 +96,7 @@ public class BetterPvPNoPvPCommand extends BaseCommand implements Listener {
                         autoEnableBossBar.removePlayer(player);
                         autoEnableBossBar.setVisible(false);
                     }
+                    pvpStatus.put((Player) sender, true); // Almacena que el jugador activó el PvP
                 }
 
                 String pvpToggleMessage = betterPvP.getMainConfig().getString("pvptoggle");
