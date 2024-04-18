@@ -16,7 +16,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.*;
+import java.net.URL;
 import java.nio.file.Files;
+import java.util.Scanner;
 
 /**
  * Main class of the BetterPvP plugin.
@@ -30,6 +32,11 @@ public final class BetterPvP extends JavaPlugin {
     @Getter
     private VaultHookManager vaultHookManager;
     private boolean loadLicenseFile;
+
+    private String currentVersion;
+    private String latestVersion;
+
+    private static final String PLUGIN_VERSION = "1.0.0";
 
     /**
      * Method called when the plugin is enabled.
@@ -47,6 +54,9 @@ public final class BetterPvP extends JavaPlugin {
 
         // Display information in the console
         displayConsoleInfo();
+
+        currentVersion = PLUGIN_VERSION;
+        Bukkit.getScheduler().runTaskAsynchronously(this, this::checkForUpdates);
 
         // Copy Apache-2.0 license file from resources to plugin folder
         if (mainConfig.getBoolean("load-license-file")) {
@@ -139,6 +149,40 @@ public final class BetterPvP extends JavaPlugin {
      */
     private void sendMessageToConsole(String message) {
         Bukkit.getConsoleSender().sendMessage(ChatColorUtil.colorize(message));
+    }
+
+    private void checkForUpdates() {
+        try {
+            URL url = new URL("https://api.github.com/repos/Sstudios-Dev/Betterpvp-2.0/releases/latest");
+
+            Scanner scanner = new Scanner(url.openStream());
+            StringBuilder response = new StringBuilder();
+            while (scanner.hasNext()) {
+                response.append(scanner.nextLine());
+            }
+            scanner.close();
+
+            latestVersion = response.toString().split("\"tag_name\":\"")[1].split("\",")[0];
+
+            // Notificar si hay una nueva versión disponible
+            if (isNewVersionAvailable()) {
+                notifyPlayers();
+            } else {
+                getLogger().info("No updates are available. Current version: " + currentVersion);
+            }
+        } catch (IOException e) {
+            getLogger().warning("Error checking for updates: " + e.getMessage());
+        }
+    }
+
+    private boolean isNewVersionAvailable() {
+        return latestVersion != null && !latestVersion.equalsIgnoreCase(currentVersion);
+    }
+
+    private void notifyPlayers() {
+        getLogger().info("A new version of BetterPvP is available! Current version: " + currentVersion + ", Latest version: " + latestVersion);
+
+        Bukkit.getOnlinePlayers().forEach(player -> player.sendMessage("A new version of BetterPvP is available! Current version: " + currentVersion + ", Latest version: " + latestVersion));
     }
 
 }
