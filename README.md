@@ -14,6 +14,9 @@
 
 <p align="center"> <strong>BetterPvP</strong> is a <a href="https://www.minecraft.net/">Minecraft</a> plugin tailored for the Minecraft community, focusing on managing and enhancing player versus player (PvP) dynamics within the game. This plugin provides an array of tools and configurations aimed at balancing the combat experience among players, fostering a competitive and equitable environment. From rule adjustments to tracking features and statistical analysis, BetterPvP has emerged as an essential component for servers aiming to deliver a refined PvP experience, catering to both casual and competitive players alike.</p>
 
+## Spigot:
+https://www.spigotmc.org/resources/betterpvp.116272/
+
 
 ## Version Reference
 
