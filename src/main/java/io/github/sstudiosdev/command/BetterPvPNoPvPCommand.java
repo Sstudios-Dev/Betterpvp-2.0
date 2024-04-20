@@ -59,9 +59,10 @@ public class BetterPvPNoPvPCommand extends BaseCommand implements Listener {
     @Override
     public void execute(CommandSender sender, String[] args) {
         if (args.length == 1 && args[0].equalsIgnoreCase("history")) {
-            showChangeLog(sender);
+            showChangeLog(sender, (Player) sender);
             return;
         }
+
 
         if (args.length == 1 && (args[0].equalsIgnoreCase("on") || args[0].equalsIgnoreCase("off"))) {
             if (hasPermission(sender)) {
@@ -82,7 +83,7 @@ public class BetterPvPNoPvPCommand extends BaseCommand implements Listener {
                         autoEnableBossBar.setVisible(true);
                     }
 
-                    pvpStatus.put((Player) sender, false); // Almacena que el jugador desactivó el PvP
+                    pvpStatus.put((Player) sender, false);
                     pvpAutoEnabled = false;
                     if (pvpAutoEnableTask != null) {
                         pvpAutoEnableTask.cancel();
@@ -96,7 +97,7 @@ public class BetterPvPNoPvPCommand extends BaseCommand implements Listener {
                         autoEnableBossBar.removePlayer(player);
                         autoEnableBossBar.setVisible(false);
                     }
-                    pvpStatus.put((Player) sender, true); // Almacena que el jugador activó el PvP
+                    pvpStatus.put((Player) sender, true);
                 }
 
                 String pvpToggleMessage = betterPvP.getMainConfig().getString("pvptoggle");
@@ -158,11 +159,13 @@ public class BetterPvPNoPvPCommand extends BaseCommand implements Listener {
         }
     }
 
-    public void showChangeLog(CommandSender sender) {
+    public void showChangeLog(CommandSender sender, Player player) {
         String PvPHisory = betterPvP.getMainConfig().getString("pvp-history");
         sender.sendMessage(ChatColorUtil.colorize(BetterPvP.prefix + " " + PvPHisory));
         for (String entry : pvpChangeLog) {
-            sender.sendMessage(ChatColorUtil.colorize(" - " + entry));
+            if (entry.contains(player.getName())) {
+                sender.sendMessage(ChatColorUtil.colorize(" - " + entry));
+            }
         }
     }
 
