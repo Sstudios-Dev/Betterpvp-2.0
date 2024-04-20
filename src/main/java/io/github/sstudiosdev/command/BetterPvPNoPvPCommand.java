@@ -143,14 +143,16 @@ public class BetterPvPNoPvPCommand extends BaseCommand implements Listener {
     public void onPlayerPickupItem(PlayerPickupItemEvent event) {
         Player player = event.getPlayer();
         if (!pvpEnabled || (pvpStatus.containsKey(player) && !pvpStatus.get(player))) {
-            event.setCancelled(true);
-            String pickupDisabledMessage = betterPvP.getMainConfig().getString("pickup-disabled-message");
-            long currentTime = System.currentTimeMillis();
+            if (!pvpAutoEnabled) {
+                event.setCancelled(true);
+                String pickupDisabledMessage = betterPvP.getMainConfig().getString("pickup-disabled-message");
+                long currentTime = System.currentTimeMillis();
 
-            // Send the message immediately if it's the first time or if 5 seconds have passed since the last message
-            if (!lastPickupMessageTime.containsKey(player) || currentTime - lastPickupMessageTime.get(player) >= 5000) {
-                lastPickupMessageTime.put(player, currentTime);
-                player.sendMessage(ChatColorUtil.colorize(BetterPvP.prefix + " " + pickupDisabledMessage));
+                // Send the message immediately if it's the first time or if 5 seconds have passed since the last message
+                if (!lastPickupMessageTime.containsKey(player) || currentTime - lastPickupMessageTime.get(player) >= 5000) {
+                    lastPickupMessageTime.put(player, currentTime);
+                    player.sendMessage(ChatColorUtil.colorize(BetterPvP.prefix + " " + pickupDisabledMessage));
+                }
             }
         }
     }
