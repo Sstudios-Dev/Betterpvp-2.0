@@ -36,6 +36,7 @@ public class BetterPvPNoPvPCommand extends BaseCommand implements Listener {
     private BukkitTask pvpAutoEnableTask;
     private final Map<Player, Long> pickupCooldowns = new HashMap<>();
     private final long pickupCooldownTime = 10000;
+    private final Map<Player, Long> lastPickupMessageTime = new HashMap<>();
     private BossBar autoEnableBossBar;
 
     public BetterPvPNoPvPCommand(final BetterPvP betterPvP) {
@@ -141,11 +142,16 @@ public class BetterPvPNoPvPCommand extends BaseCommand implements Listener {
     @EventHandler
     public void onPlayerPickupItem(PlayerPickupItemEvent event) {
         Player player = event.getPlayer();
-        if (pvpStatus.containsKey(player) && !pvpStatus.get(player)) {
-            // El jugador ha desactivado el PvP, cancela el evento solo para este jugador
+        if (!pvpEnabled || (pvpStatus.containsKey(player) && !pvpStatus.get(player))) {
             event.setCancelled(true);
             String pickupDisabledMessage = betterPvP.getMainConfig().getString("pickup-disabled-message");
-            player.sendMessage(ChatColorUtil.colorize(BetterPvP.prefix + " " + pickupDisabledMessage));
+            long currentTime = System.currentTimeMillis();
+
+            // Send the message immediately if it's the first time or if 5 seconds have passed since the last message
+            if (!lastPickupMessageTime.containsKey(player) || currentTime - lastPickupMessageTime.get(player) >= 5000) {
+                lastPickupMessageTime.put(player, currentTime);
+                player.sendMessage(ChatColorUtil.colorize(BetterPvP.prefix + " " + pickupDisabledMessage));
+            }
         }
     }
 
