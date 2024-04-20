@@ -82,6 +82,7 @@ public class BetterPvPNoPvPCommand extends BaseCommand implements Listener {
                         Player player = (Player) sender;
                         autoEnableBossBar.addPlayer(player);
                         autoEnableBossBar.setVisible(true);
+                        startAutoEnableBossBar(player);
                     }
 
                     pvpStatus.put((Player) sender, false);
@@ -89,7 +90,6 @@ public class BetterPvPNoPvPCommand extends BaseCommand implements Listener {
                     if (pvpAutoEnableTask != null) {
                         pvpAutoEnableTask.cancel();
                     }
-                    startAutoEnableBossBar();
                 }
 
                 if (args[0].equalsIgnoreCase("on")) {
@@ -177,7 +177,7 @@ public class BetterPvPNoPvPCommand extends BaseCommand implements Listener {
         }
     }
 
-    private void startAutoEnableBossBar() {
+    private void startAutoEnableBossBar(Player player) {
         if (pvpAutoEnableTask != null) {
             pvpAutoEnableTask.cancel();
         }
@@ -200,7 +200,9 @@ public class BetterPvPNoPvPCommand extends BaseCommand implements Listener {
                     autoEnableBossBar.setVisible(false);
                     autoEnableBossBar.removeAll();
                     String reactivateMessage = betterPvP.getMainConfig().getString("pvp-reactivate");
-                    Bukkit.broadcastMessage(ChatColorUtil.colorize(BetterPvP.prefix + " " + reactivateMessage));
+
+                    player.sendMessage(ChatColorUtil.colorize(BetterPvP.prefix + " " + reactivateMessage));
+
                     cancel();
                 }
             }
