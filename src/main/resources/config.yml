@@ -19,6 +19,7 @@
 
 prefix: "&8[&3BetterPvP&8]"
 load-license-file: true
+error-handler: true # It is recommended to have it activated
 
 # ============================================================
 # |                        Messages                          |
@@ -113,7 +114,7 @@ pvpworld-disabled-worlds:
 
 respawn-protection:
   enabled: true
-  duration: 10 # time in seconds
+  duration: 5 # time in seconds
 
 # End Config.yml
 # Thank you pichema ❤
