@@ -1,5 +1,6 @@
 package io.github.sstudiosdev.util;
 
+import io.github.sstudiosdev.BetterPvP;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.Plugin;
@@ -14,21 +15,28 @@ import java.util.Date;
 public class ErrorHandler implements Thread.UncaughtExceptionHandler {
 
     private final Plugin plugin;
+    private final BetterPvP betterPvP;
+    private final boolean errorHandlerEnabled;
 
     public ErrorHandler(Plugin plugin) {
         this.plugin = plugin;
+        this.betterPvP = (BetterPvP) plugin;
+        this.errorHandlerEnabled = Boolean.parseBoolean(betterPvP.getMainConfig().getString("error-handler"));
     }
+
 
     @Override
     public void uncaughtException(Thread thread, Throwable throwable) {
-        // Log the error
-        logError(throwable);
+        if (errorHandlerEnabled) {
+            // Log the error
+            logError(throwable);
 
-        // Notify players about the error
-        notifyPlayers(throwable);
+            // Notify players about the error
+            notifyPlayers(throwable);
 
-        // Prevent the plugin from being disabled
-        thread.interrupt();
+            // Prevent the plugin from being disabled
+            thread.interrupt();
+        }
     }
 
     private void logError(Throwable throwable) {
@@ -45,7 +53,13 @@ public class ErrorHandler implements Thread.UncaughtExceptionHandler {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String timestamp = sdf.format(new Date());
             pw.println("[" + timestamp + "] Unhandled exception in plugin " + plugin.getName());
-            throwable.printStackTrace(pw);
+
+            // Include the error message and class/method/line where the exception occurred
+            pw.println("Error message: " + throwable.getMessage());
+            for (StackTraceElement element : throwable.getStackTrace()) {
+                pw.println("  at " + element.getClassName() + "." + element.getMethodName() +
+                        "(" + element.getFileName() + ":" + element.getLineNumber() + ")");
+            }
             pw.println();
             pw.close();
         } catch (IOException e) {
