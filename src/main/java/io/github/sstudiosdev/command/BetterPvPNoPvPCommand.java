@@ -29,6 +29,7 @@ import java.util.Map;
 public class BetterPvPNoPvPCommand extends BaseCommand implements Listener {
     private final BetterPvP betterPvP;
     private final Map<Player, Boolean> pvpStatus = new HashMap<>();
+    private Map<Player, Long> cooldowns = new HashMap<>();
     private final List<String> pvpChangeLog = new ArrayList<>();
     private boolean pvpEnabled = true;
     private boolean enablePickupEvent;
@@ -80,15 +81,30 @@ public class BetterPvPNoPvPCommand extends BaseCommand implements Listener {
                 if (args[0].equalsIgnoreCase("off")) {
                     if (sender instanceof Player) {
                         Player player = (Player) sender;
+
+                        // Check cooldown
+                        long currentTime = System.currentTimeMillis();
+                        long defaultCooldown = 60L;
+                        long cooldownTime = betterPvP.getMainConfig().getLong("cooldown.pvp-cooldown", defaultCooldown) * 1000;
+                        if (cooldowns.containsKey(player) && cooldowns.get(player) + cooldownTime > currentTime) {
+                            String CooldownError = betterPvP.getMainConfig().getString("cooldown-error-message");
+                            sender.sendMessage(ChatColorUtil.colorize(BetterPvP.prefix + " " + CooldownError));
+                            return;
+                        }
+
+                        // Update BossBar and PvP status
                         autoEnableBossBar.addPlayer(player);
                         autoEnableBossBar.setVisible(true);
-                        startAutoEnableBossBar(player);
-                    }
+                        pvpStatus.put(player, false);
 
-                    pvpStatus.put((Player) sender, false);
-                    pvpAutoEnabled = false;
-                    if (pvpAutoEnableTask != null) {
-                        pvpAutoEnableTask.cancel();
+                        // Cancel automatic PvP enable task
+                        pvpAutoEnabled = false;
+                        if (pvpAutoEnableTask != null) {
+                            pvpAutoEnableTask.cancel();
+                        }
+                        startAutoEnableBossBar(player);
+                        // Set cooldown for the player
+                        cooldowns.put(player, currentTime);
                     }
                 }
 
