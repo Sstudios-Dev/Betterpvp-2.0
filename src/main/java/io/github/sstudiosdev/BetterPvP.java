@@ -9,6 +9,7 @@ import io.github.sstudiosdev.listener.PlayerDeathListener;
 import io.github.sstudiosdev.listener.RespawnProtectionListener;
 import io.github.sstudiosdev.util.ChatColorUtil;
 import io.github.sstudiosdev.util.CommandMapUtil;
+import io.github.sstudiosdev.util.ErrorHandler;
 import io.github.sstudiosdev.util.constructors.Config;
 import io.github.sstudiosdev.vault.VaultHookManager;
 import lombok.Getter;
@@ -54,6 +55,9 @@ public final class BetterPvP extends JavaPlugin {
 
         // Display information in the console
         displayConsoleInfo();
+
+        // errorHandler
+        Thread.setDefaultUncaughtExceptionHandler(new ErrorHandler(this));
 
         currentVersion = PLUGIN_VERSION;
         Bukkit.getScheduler().runTaskAsynchronously(this, this::checkForUpdates);
