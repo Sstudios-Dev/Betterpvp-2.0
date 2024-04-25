@@ -8,7 +8,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.github.sstudiosdev</groupId>
     <artifactId>BetterPvP</artifactId>
-    <version>1.0.0-Stable</version>
+    <version>1.0.2-Stable</version>
     <name>BetterPvP</name>
 
     <!-- Project Properties -->
@@ -74,7 +74,7 @@
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
-            <version>2.16.1</version>
+            <version>2.15.1</version>
         </dependency>
 
         <!-- Apache Commons Lang Dependency -->
@@ -98,6 +98,14 @@
             <groupId>me.clip</groupId>
             <artifactId>placeholderapi</artifactId>
             <version>2.11.5</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Worldguard Dependency -->
+        <dependency>
+            <groupId>com.sk89q.worldguard</groupId>
+            <artifactId>worldguard-bukkit</artifactId>
+            <version>7.0.9</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
