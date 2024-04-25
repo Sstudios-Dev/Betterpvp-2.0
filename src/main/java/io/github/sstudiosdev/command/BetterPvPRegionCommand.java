@@ -50,14 +50,15 @@ public class BetterPvPRegionCommand extends BaseCommand {
             return;
         }
 
-        StateFlag pvpFlag = StateFlag.valueOf("pvp");
+        FlagRegistry flagRegistry = WorldGuard.getInstance().getFlagRegistry();
+        StateFlag pvpFlag = flagRegistry.get("pvp");
         if (pvpFlag == null) {
             player.sendMessage(ChatColor.RED + "PvP flag not found.");
             return;
         }
 
         boolean pvpEnabled = args[0].equalsIgnoreCase("on");
-        region.setFlag(pvpFlag, pvpEnabled);
+        region.setFlag(pvpFlag, pvpEnabled ? StateFlag.State.ALLOW : StateFlag.State.DENY);
         player.sendMessage(ChatColor.GREEN + "PvP " + (pvpEnabled ? "enabled" : "disabled") + " in region '" + regionName + "'.");
     }
 
