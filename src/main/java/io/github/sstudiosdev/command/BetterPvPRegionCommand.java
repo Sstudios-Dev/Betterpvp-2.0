@@ -47,7 +47,7 @@ public class BetterPvPRegionCommand extends BaseCommand {
         }
 
         FlagRegistry flagRegistry = WorldGuard.getInstance().getFlagRegistry();
-        StateFlag pvpFlag = flagRegistry.get("pvp");
+        StateFlag pvpFlag = (StateFlag) flagRegistry.get("pvp");
         if (pvpFlag == null) {
             player.sendMessage(ChatColor.RED + "PvP flag not found.");
             return;
