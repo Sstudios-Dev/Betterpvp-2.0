@@ -13,7 +13,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,9 +23,6 @@ public class BetterPvPRegionCommand extends BaseCommand {
     public BetterPvPRegionCommand(final BetterPvP betterPvP) {
         super("pvpregion", new ArrayList<>(), "betterpvp.pvpregion", true);
         this.betterPvP = betterPvP;
-
-        PluginManager pluginManager = betterPvP.getServer().getPluginManager();
-        pluginManager.registerEvents(this, betterPvP);
     }
 
     @Override
