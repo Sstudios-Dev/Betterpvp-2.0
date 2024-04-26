@@ -28,6 +28,7 @@ error-handler: true # It is recommended to have it activated
 # Message Module: Here you can translate all plugin messages.
 
 no-permission: "&cSorry, but you (%player_name%) do not have permission to execute this command."
+onlyPlayers: "&cThis command can only be used by players."
 command-disabled-world: "&cThis command is disabled in this world, please wait for them to activate it."
 world-not-found: "&cError! The '%world%' world was not found."
 kill-reward: "&aYou have received %amount% for killing a player!"
@@ -45,6 +46,8 @@ protection_message: "&cYou cannot take damage while you have respawn protection!
 version-message: "&3Current plugin version: &7%version%"
 invalid-language: "&cInvalid language. Available languages: es, eng, ca, jp, ru"
 github-repository: "&aGitHub repository link:   %link%"
+pvpFlagNotFoundMessage: "&cPvP flag not found."
+pvpRegionNotFoundMessage: "&cRegion not found."
 
 # ============================================================
 # |                        AntiKillAbuse                     |
