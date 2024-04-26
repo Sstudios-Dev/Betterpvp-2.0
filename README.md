@@ -24,6 +24,10 @@ https://www.spigotmc.org/resources/betterpvp.116272/
 
 | Version | Type     | Description                  |
 | :-------- | :------- | :------------------------- |
+| `1.0.2` | `Public` | This version **adds new things and fixes bugs** |
+
+| Version | Type     | Description                  |
+| :-------- | :------- | :------------------------- |
 | `1.0.1` | `Public` | This version **fixes bugs** |
 
 | Version | Type     | Description                  |
