@@ -41,8 +41,13 @@ public class ErrorHandler implements Thread.UncaughtExceptionHandler {
 
     private void logError(Throwable throwable) {
         try {
-            // Create or append to the error log file
-            File logFile = new File(plugin.getDataFolder(), "error.log");
+            // Create or append to the error log file in a 'logs' folder
+            File logFolder = new File(plugin.getDataFolder(), "logs");
+            if (!logFolder.exists()) {
+                logFolder.mkdirs(); // Create the 'logs' folder if it doesn't exist
+            }
+
+            File logFile = new File(logFolder, "error.log");
             if (!logFile.exists()) {
                 logFile.createNewFile();
             }
