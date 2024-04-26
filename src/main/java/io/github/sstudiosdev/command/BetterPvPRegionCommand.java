@@ -8,6 +8,7 @@ import com.sk89q.worldguard.protection.flags.registry.FlagRegistry;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import io.github.sstudiosdev.BetterPvP;
+import io.github.sstudiosdev.util.ChatColorUtil;
 import io.github.sstudiosdev.util.command.BaseCommand;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -28,7 +29,8 @@ public class BetterPvPRegionCommand extends BaseCommand {
     @Override
     public void execute(CommandSender sender, String[] args) {
         if (!(sender instanceof Player)) {
-            sender.sendMessage(ChatColor.RED + "This command can only be used by players.");
+            String onlyPlayers = betterPvP.getMainConfig().getString("onlyPlayers");
+            sender.sendMessage(ChatColorUtil.colorize(BetterPvP.prefix + " " + onlyPlayers));
             return;
         }
 
@@ -42,14 +44,16 @@ public class BetterPvPRegionCommand extends BaseCommand {
         RegionManager regionManager = WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(player.getWorld()));
         ProtectedRegion region = regionManager.getRegion(regionName);
         if (region == null) {
-            player.sendMessage(ChatColor.RED + "Region not found.");
+            String pvpRegionNotFound = betterPvP.getMainConfig().getString("pvpRegionNotFoundMessage");
+            player.sendMessage(ChatColorUtil.colorize(BetterPvP.prefix + " " + pvpRegionNotFound));
             return;
         }
 
         FlagRegistry flagRegistry = WorldGuard.getInstance().getFlagRegistry();
         StateFlag pvpFlag = (StateFlag) flagRegistry.get("pvp");
         if (pvpFlag == null) {
-            player.sendMessage(ChatColor.RED + "PvP flag not found.");
+            String pvpFlagNotFound = betterPvP.getMainConfig().getString("pvpFlagNotFoundMessage");
+            player.sendMessage(ChatColorUtil.colorize(BetterPvP.prefix + " " + pvpFlagNotFound));
             return;
         }
 
