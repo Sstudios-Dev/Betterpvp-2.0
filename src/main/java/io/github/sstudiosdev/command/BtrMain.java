@@ -47,7 +47,7 @@ public class BtrMain extends BaseCommand {
                     return;
             }
             String GithubRepository = betterPvP.getMainConfig().getString("github-repository");
-            GithubRepository = GithubRepository.replace("%link%", link);
+            GithubRepository = GithubRepository.replace("%bt-link%", link);
             sender.sendMessage(ChatColorUtil.colorize(BetterPvP.prefix + " " + GithubRepository));
         } else {
             sender.sendMessage(ChatColorUtil.colorize(BetterPvP.prefix + " &cUsage: /btr locate <language_code>"));

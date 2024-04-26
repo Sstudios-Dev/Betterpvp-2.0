@@ -26,7 +26,7 @@ public class PvPWorldCommand extends BaseCommand implements Listener {
     public PvPWorldCommand(final BetterPvP betterPvP) {
         super("pvpworld", new ArrayList<>(), "betterpvp.pvpworld", true);
         this.betterPvP = betterPvP;
-        this.enabledWorlds = betterPvP.getMainConfig().getStringList("pvpworld-enabled-worlds");
+        this.enabledWorlds = betterPvP.getMainConfig().getStringList("pvpworld-disabled-worlds");
 
         PluginManager pluginManager = betterPvP.getServer().getPluginManager();
         pluginManager.registerEvents(this, betterPvP);
@@ -43,7 +43,7 @@ public class PvPWorldCommand extends BaseCommand implements Listener {
                         String message = args[0].equalsIgnoreCase("on") ?
                                 betterPvP.getMainConfig().getString("pvpworld-enabled") :
                                 betterPvP.getMainConfig().getString("pvpworld-disabled");
-                        message = message.replace("%world%", world.getName());
+                        message = message.replace("%bt-world%", world.getName());
                         sender.sendMessage(ChatColorUtil.colorize(BetterPvP.prefix + " " + message));
                     } else {
                         String CommandDisabledWorld = betterPvP.getMainConfig().getString("command-disabled-world");
@@ -85,7 +85,7 @@ public class PvPWorldCommand extends BaseCommand implements Listener {
 
     private void sendWorldNoFound(CommandSender sender, String worldName) {
         String worldNotFound = betterPvP.getMainConfig().getString("world-not-found");
-        worldNotFound = worldNotFound.replace("%world%", worldName);
+        worldNotFound = worldNotFound.replace("%bt-world%", worldName);
         sender.sendMessage(ChatColorUtil.colorize(BetterPvP.prefix + " " + worldNotFound));
     }
 

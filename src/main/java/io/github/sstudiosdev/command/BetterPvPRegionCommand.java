@@ -57,9 +57,16 @@ public class BetterPvPRegionCommand extends BaseCommand {
             return;
         }
 
+        String pvpRegionEnabledMessage = betterPvP.getMainConfig().getString("pvpRegionEnabled");
+        String pvpRegionDisabledMessage = betterPvP.getMainConfig().getString("pvpRegionDisabled");
+
         boolean pvpEnabled = args[0].equalsIgnoreCase("on");
         region.setFlag(pvpFlag, pvpEnabled ? StateFlag.State.ALLOW : StateFlag.State.DENY);
-        player.sendMessage(ChatColor.GREEN + "PvP " + (pvpEnabled ? "enabled" : "disabled") + " in region '" + regionName + "'.");
+
+        String message = pvpEnabled ? pvpRegionEnabledMessage : pvpRegionDisabledMessage;
+        message = message.replace("%bt-region%", regionName);
+
+        player.sendMessage(ChatColorUtil.colorize(BetterPvP.prefix + " " + message));
     }
 
     public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {

@@ -118,7 +118,7 @@ public class BetterPvPNoPvPCommand extends BaseCommand implements Listener {
                 }
 
                 String pvpToggleMessage = betterPvP.getMainConfig().getString("pvptoggle");
-                pvpToggleMessage = pvpToggleMessage.replace("%status%", args[0]);
+                pvpToggleMessage = pvpToggleMessage.replace("%bt-status%", args[0]);
 
                 pvpEnabled = args[0].equalsIgnoreCase("on");
 

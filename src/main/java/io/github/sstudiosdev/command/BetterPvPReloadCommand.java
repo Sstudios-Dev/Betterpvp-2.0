@@ -50,12 +50,14 @@ public class BetterPvPReloadCommand extends BaseCommand {
             sender.sendMessage(ChatColorUtil.colorize("&4/pvp history &7- Show your pvpToogle history"));
             sender.sendMessage(ChatColorUtil.colorize("&f"));
             sender.sendMessage(ChatColorUtil.colorize("&3/pvpworld <on/off> <world> &7- disable and enable global pvp for all players in that world"));
+            sender.sendMessage(ChatColorUtil.colorize("&f"));
+            sender.sendMessage(ChatColorUtil.colorize("&3/pvpregion <on/off> <region> &7- Enables and disables pvp in a certain region of the worldGuard"));
         } else if (args.length == 1 && args[0].equalsIgnoreCase("version")) {
             // Handle version argument
             String pluginVersion = betterPvP.getDescription().getVersion();
             String versionMessage = betterPvP.getMainConfig().getString("version-message");
             if (versionMessage != null) {
-                versionMessage = versionMessage.replace("%version%", pluginVersion);
+                versionMessage = versionMessage.replace("%bt-version%", pluginVersion);
                 sender.sendMessage(ChatColorUtil.colorize(BetterPvP.prefix + " " + versionMessage));
             }
         } else {

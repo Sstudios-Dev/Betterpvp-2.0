@@ -1,9 +1,6 @@
 package io.github.sstudiosdev;
 
-import io.github.sstudiosdev.command.BetterPvPNoPvPCommand;
-import io.github.sstudiosdev.command.BetterPvPReloadCommand;
-import io.github.sstudiosdev.command.BtrMain;
-import io.github.sstudiosdev.command.PvPWorldCommand;
+import io.github.sstudiosdev.command.*;
 import io.github.sstudiosdev.listener.AntiKillAbuseListener;
 import io.github.sstudiosdev.listener.PlayerDeathListener;
 import io.github.sstudiosdev.listener.RespawnProtectionListener;
@@ -14,6 +11,7 @@ import io.github.sstudiosdev.util.constructors.Config;
 import io.github.sstudiosdev.vault.VaultHookManager;
 import lombok.Getter;
 import org.bukkit.Bukkit;
+import org.bukkit.command.Command;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.*;
@@ -37,7 +35,7 @@ public final class BetterPvP extends JavaPlugin {
     private String currentVersion;
     private String latestVersion;
 
-    private static final String PLUGIN_VERSION = "1.0.0";
+    private static final String PLUGIN_VERSION = "1.0.1";
 
     /**
      * Method called when the plugin is enabled.
@@ -129,6 +127,7 @@ public final class BetterPvP extends JavaPlugin {
         CommandMapUtil.registerCommand(this, new BetterPvPNoPvPCommand(this));
         CommandMapUtil.registerCommand(this, new PvPWorldCommand(this));
         CommandMapUtil.registerCommand(this, new BtrMain(this));
+        CommandMapUtil.registerCommand(this, new BetterPvPRegionCommand(this));
     }
 
     /**
@@ -136,7 +135,7 @@ public final class BetterPvP extends JavaPlugin {
      */
     private void displayConsoleInfo() {
         sendMessageToConsole("     &3_____");
-        sendMessageToConsole("   &3|   __  \\  &3BetterPvP &7v1.0.0-Stable       ");
+        sendMessageToConsole("   &3|   __  \\  &3BetterPvP &7v1.0.2-Stable       ");
         sendMessageToConsole("   &3|  |  | |  &7Running on Bukkit - Paper  ");
         sendMessageToConsole("   &3|  |___  |    &fPlugin by &3[srstaff_tv, sstudios, 1vcb, Updated by pichema and more]");
         sendMessageToConsole("   &3|  |__| |  ");

@@ -59,7 +59,7 @@ public class PlayerDeathListener implements Listener {
             economyManager.depositMoney(killer, defaultReward);
 
             // Enviar un mensaje al jugador asesino sobre la recompensa
-            String formattedMessage = killMessage.replace("%amount%", String.valueOf(defaultReward));
+            String formattedMessage = killMessage.replace("%bt-give-Money%", String.valueOf(defaultReward));
             killer.sendMessage(ChatColorUtil.colorize(BetterPvP.prefix + " " + formattedMessage));
         }
     }
