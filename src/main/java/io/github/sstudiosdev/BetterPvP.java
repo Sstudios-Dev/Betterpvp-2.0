@@ -187,5 +187,4 @@ public final class BetterPvP extends JavaPlugin {
 
         Bukkit.getOnlinePlayers().forEach(player -> player.sendMessage("A new version of BetterPvP is available! Current version: " + currentVersion + ", Latest version: " + latestVersion));
     }
-
 }
