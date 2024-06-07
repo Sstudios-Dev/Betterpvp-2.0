@@ -24,7 +24,6 @@ public class ErrorHandler implements Thread.UncaughtExceptionHandler {
         this.errorHandlerEnabled = Boolean.parseBoolean(betterPvP.getMainConfig().getString("error-handler"));
     }
 
-
     @Override
     public void uncaughtException(Thread thread, Throwable throwable) {
         if (errorHandlerEnabled) {
@@ -65,6 +64,17 @@ public class ErrorHandler implements Thread.UncaughtExceptionHandler {
                 pw.println("  at " + element.getClassName() + "." + element.getMethodName() +
                         "(" + element.getFileName() + ":" + element.getLineNumber() + ")");
             }
+
+            // Include the cause of the throwable if it exists
+            Throwable cause = throwable.getCause();
+            if (cause != null) {
+                pw.println("Caused by: " + cause.toString());
+                for (StackTraceElement element : cause.getStackTrace()) {
+                    pw.println("  at " + element.getClassName() + "." + element.getMethodName() +
+                            "(" + element.getFileName() + ":" + element.getLineNumber() + ")");
+                }
+            }
+
             pw.println();
             pw.close();
         } catch (IOException e) {
@@ -84,10 +94,21 @@ public class ErrorHandler implements Thread.UncaughtExceptionHandler {
         // Log the error message to the console
         plugin.getLogger().severe(errorMessage);
 
-        // Log the stack trace to the console
-        plugin.getLogger().severe(throwable.getMessage());
+        // Log the stack trace to the console with more clarity
+        plugin.getLogger().severe("Error message: " + throwable.getMessage());
         for (StackTraceElement element : throwable.getStackTrace()) {
-            plugin.getLogger().severe(element.toString());
+            plugin.getLogger().severe("  at " + element.getClassName() + "." + element.getMethodName() +
+                    "(" + element.getFileName() + ":" + element.getLineNumber() + ")");
+        }
+
+        // Include the cause of the throwable if it exists
+        Throwable cause = throwable.getCause();
+        if (cause != null) {
+            plugin.getLogger().severe("Caused by: " + cause.toString());
+            for (StackTraceElement element : cause.getStackTrace()) {
+                plugin.getLogger().severe("  at " + element.getClassName() + "." + element.getMethodName() +
+                        "(" + element.getFileName() + ":" + element.getLineNumber() + ")");
+            }
         }
     }
 }
