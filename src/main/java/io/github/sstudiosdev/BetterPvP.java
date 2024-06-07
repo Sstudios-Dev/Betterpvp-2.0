@@ -35,7 +35,7 @@ public final class BetterPvP extends JavaPlugin {
     private String currentVersion;
     private String latestVersion;
 
-    private static final String PLUGIN_VERSION = "1.0.1";
+    private static final String PLUGIN_VERSION = "1.0.2";
 
     /**
      * Method called when the plugin is enabled.
