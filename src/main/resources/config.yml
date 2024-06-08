@@ -20,6 +20,7 @@
 prefix: "&8[&3BetterPvP&8]"
 load-license-file: true
 error-handler: true # It is recommended to have it activated
+version: 1.0.3 # Do not touch this part is handled by the version of the plugin with our api.
 
 # ============================================================
 # |                        Messages                          |
