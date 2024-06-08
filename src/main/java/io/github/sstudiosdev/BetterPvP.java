@@ -35,7 +35,7 @@ public final class BetterPvP extends JavaPlugin {
     private String currentVersion;
     private String latestVersion;
 
-    private static final String PLUGIN_VERSION = "1.0.2";
+    private static final String PLUGIN_VERSION = "1.0.3";
 
     /**
      * Method called when the plugin is enabled.
@@ -135,7 +135,7 @@ public final class BetterPvP extends JavaPlugin {
      */
     private void displayConsoleInfo() {
         sendMessageToConsole("     &3_____");
-        sendMessageToConsole("   &3|   __  \\  &3BetterPvP &7v1.0.2-Stable       ");
+        sendMessageToConsole("   &3|   __  \\  &3BetterPvP &7v1.0.3-Stable       ");
         sendMessageToConsole("   &3|  |  | |  &7Running on Bukkit - Paper  ");
         sendMessageToConsole("   &3|  |___  |    &fPlugin by &3[srstaff_tv, sstudios, 1vcb, Updated by pichema and more]");
         sendMessageToConsole("   &3|  |__| |  ");
@@ -187,4 +187,5 @@ public final class BetterPvP extends JavaPlugin {
 
         Bukkit.getOnlinePlayers().forEach(player -> player.sendMessage("A new version of BetterPvP is available! Current version: " + currentVersion + ", Latest version: " + latestVersion));
     }
+
 }
