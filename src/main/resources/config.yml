@@ -94,6 +94,16 @@ tools:
 # List of colors that can be put on the bossbar
 # https://hub.spigotmc.org/javadocs/spigot/org/bukkit/boss/BarColor.html
 
+# List of available bossbar colors
+
+# - BLUE
+# - GREEN
+# - PINK
+# - PURPLE
+# - RED
+# - WHITE
+# - YELLOW
+
 bossbar:
   title: "&cPvP will activate in %time% seconds"
   default-colors:
