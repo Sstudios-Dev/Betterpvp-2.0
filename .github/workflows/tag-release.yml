@@ -23,7 +23,7 @@ jobs:
         sudo apt-get install -y jq
         TAG_NAME=$(echo $GITHUB_TAG | sed 's/refs\/tags\///')
         TAG_URL="https://github.com/$GITHUB_REPOSITORY/releases/tag/$TAG_NAME"
-        DESCRIPTION=$(git tag -l --format='%(contents)' $TAG_NAME)
+        DESCRIPTION=$(git for-each-ref refs/tags/$TAG_NAME --format='%(contents)')
         PAYLOAD=$(jq -n --arg title "$TAG_NAME" --arg description "$DESCRIPTION" --arg url "$TAG_URL" '{
           "embeds": [
             {
