@@ -3,6 +3,7 @@ package io.github.sstudiosdev.command;
 import io.github.sstudiosdev.BetterPvP;
 import io.github.sstudiosdev.util.ChatColorUtil;
 import io.github.sstudiosdev.util.command.BaseCommand;
+import io.github.sstudiosdev.util.constructors.SoundConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.boss.BarColor;
@@ -19,6 +20,7 @@ import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
+import org.bukkit.Sound;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -68,10 +70,12 @@ public class BetterPvPNoPvPCommand extends BaseCommand implements Listener {
                 if (args[0].equalsIgnoreCase("on") && pvpEnabledForPlayer) {
                     String pvpReadyEnabled = betterPvP.getMainConfig().getString("pvp-already-enabled");
                     sender.sendMessage(ChatColorUtil.colorize(BetterPvP.prefix + " " + pvpReadyEnabled));
+                    player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1.0f, 1.0f);
                     return;
                 } else if (args[0].equalsIgnoreCase("off") && !pvpEnabledForPlayer) {
                     String pvpAlreadyDisabled = betterPvP.getMainConfig().getString("pvp-already-disabled");
                     sender.sendMessage(ChatColorUtil.colorize(BetterPvP.prefix + " " + pvpAlreadyDisabled));
+                    player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1.0f, 1.0f);
                     return;
                 }
 
@@ -83,6 +87,8 @@ public class BetterPvPNoPvPCommand extends BaseCommand implements Listener {
                     if (cooldowns.containsKey(player) && cooldowns.get(player) + cooldownTime > currentTime) {
                         String cooldownError = betterPvP.getMainConfig().getString("cooldown-error-message");
                         sender.sendMessage(ChatColorUtil.colorize(BetterPvP.prefix + " " + cooldownError));
+
+                        player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 1.0f, 0.5f);
                         return;
                     }
 
@@ -125,15 +131,18 @@ public class BetterPvPNoPvPCommand extends BaseCommand implements Listener {
                 pvpToggleMessage = pvpToggleMessage.replace("%bt-status%", args[0]);
 
                 sender.sendMessage(ChatColorUtil.colorize(BetterPvP.prefix + " " + pvpToggleMessage));
+                player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1.0f, 1.0f);
 
                 String status = args[0].equalsIgnoreCase("on") ? "enabled" : "disabled";
                 String message = String.format("PvP %s by %s at %s", status, sender.getName(), LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
                 pvpChangeLog.add(message);
             } else {
                 sendNoPermissionMessage(sender);
+                player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_NO, 1.0f, 1.0f);
             }
         } else {
             sender.sendMessage(ChatColorUtil.colorize(BetterPvP.prefix + " Usage: /pvp <on/off>"));
+            player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BASS, 1.0f, 0.5f);
         }
     }
 
