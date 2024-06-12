@@ -8,15 +8,21 @@ import io.github.sstudiosdev.util.ChatColorUtil;
 import io.github.sstudiosdev.util.CommandMapUtil;
 import io.github.sstudiosdev.util.ErrorHandler;
 import io.github.sstudiosdev.util.constructors.Config;
+import io.github.sstudiosdev.util.constructors.SoundConfig;
 import io.github.sstudiosdev.vault.VaultHookManager;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.*;
 import java.net.URL;
 import java.nio.file.Files;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -29,6 +35,9 @@ public final class BetterPvP extends JavaPlugin {
     private Config mainConfig;
 
     @Getter
+    private SoundConfig soundConfig;
+
+    @Getter
     private VaultHookManager vaultHookManager;
     private boolean loadLicenseFile;
 
@@ -37,13 +46,36 @@ public final class BetterPvP extends JavaPlugin {
 
     private static final String PLUGIN_VERSION = "1.0.3";
 
+    private static final List<String> incompatiblePlugins = Arrays.asList(
+            "epicplugin-1.0",
+            "epicplugin-1.1",
+            "epicplugin-1.2",
+            "epicplugin-1.3",
+            "epicplugin-1.4",
+            "epicplugin-1.5",
+            "epicplugin-1.6",
+            "epicplugin-1.7",
+            "epicplugin-1.8",
+            "epicplugin-1.9",
+            "epicplugin-1.10",
+            "epicplugin-1.11",
+            "EpicPremium-1.0",
+            "EpicPremium-1.1",
+            "EpicPremium-1.2",
+            "EpicPremium-1.4",
+            "EpicPremium-1.0.5",
+            "EpicPremium-1.5.1",
+            "EpicPremium-1.5.2",
+            "EpicPremium-1.5.3"
+    );
+
     /**
      * Method called when the plugin is enabled.
      */
     @Override
     public void onEnable() {
-        // Load configuration
-        loadConfiguration();
+        // Load configurations
+        loadConfigurations();
 
         // Log events
         registerEvents();
@@ -53,6 +85,8 @@ public final class BetterPvP extends JavaPlugin {
 
         // Display information in the console
         displayConsoleInfo();
+
+        checkForIncompatiblePlugins();
 
         // errorHandler
         Thread.setDefaultUncaughtExceptionHandler(new ErrorHandler(this));
@@ -96,10 +130,14 @@ public final class BetterPvP extends JavaPlugin {
     /**
      * Load the plugin settings.
      */
-    private void loadConfiguration() {
-        // Initializing the Config Class
+    private void loadConfigurations() {
+        // Initializing the Config Class for config.yml
         mainConfig = new Config(this, "config");
         mainConfig.load();
+
+        // Initializing the SoundConfig Class for sound.yml
+        soundConfig = new SoundConfig(this, "sound");
+        soundConfig.load();
 
         // Get prefix from configuration
         prefix = mainConfig.getString("prefix");
@@ -111,7 +149,6 @@ public final class BetterPvP extends JavaPlugin {
             // Default value if not specified in config
             loadLicenseFile = true;
         }
-
     }
 
     /**
@@ -167,7 +204,6 @@ public final class BetterPvP extends JavaPlugin {
 
             latestVersion = response.toString().split("\"tag_name\":\"")[1].split("\",")[0];
 
-            // Notificar si hay una nueva versión disponible
             if (isNewVersionAvailable()) {
                 notifyPlayers();
             } else {
@@ -186,6 +222,35 @@ public final class BetterPvP extends JavaPlugin {
         getLogger().info("A new version of BetterPvP is available! Current version: " + currentVersion + ", Latest version: " + latestVersion);
 
         Bukkit.getOnlinePlayers().forEach(player -> player.sendMessage("A new version of BetterPvP is available! Current version: " + currentVersion + ", Latest version: " + latestVersion));
+    }
+
+    @EventHandler
+    public void onPlayerJoin(PlayerJoinEvent event) {
+        // Notify the player who joined about incompatible plugins
+        checkForIncompatiblePlugins();
+    }
+
+    private void checkForIncompatiblePlugins() {
+        File pluginFolder = new File("plugins");
+        File[] files = pluginFolder.listFiles();
+        if (files != null) {
+            for (File file : files) {
+                if (file.isFile() && file.getName().endsWith(".jar")) {
+                    String fileName = file.getName().replace(".jar", "");
+                    if (incompatiblePlugins.contains(fileName)) {
+                        String message = prefix + " Warning! The plugin installed '" + fileName + "' is incompatible with BetterPvP.";
+                        notifyPlayers(message);
+                        getLogger().info(message);
+                    }
+                }
+            }
+        }
+    }
+
+    private void notifyPlayers(String message) {
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            player.sendMessage(message);
+        }
     }
 
 }
