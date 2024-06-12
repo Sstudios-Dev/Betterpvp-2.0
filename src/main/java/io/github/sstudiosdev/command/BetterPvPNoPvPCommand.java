@@ -31,6 +31,7 @@ import java.util.Map;
 
 public class BetterPvPNoPvPCommand extends BaseCommand implements Listener {
     private final BetterPvP betterPvP;
+    private SoundConfig soundConfig;
     private final Map<Player, Boolean> pvpStatus = new HashMap<>();
     private Map<Player, Long> cooldowns = new HashMap<>();
     private final List<String> pvpChangeLog = new ArrayList<>();
@@ -44,9 +45,11 @@ public class BetterPvPNoPvPCommand extends BaseCommand implements Listener {
     public BetterPvPNoPvPCommand(final BetterPvP betterPvP) {
         super("pvp", new ArrayList<>(), "betterpvp.pvp", true);
         this.betterPvP = betterPvP;
+        this.soundConfig = new SoundConfig(betterPvP, "sound");
 
         PluginManager pluginManager = betterPvP.getServer().getPluginManager();
         pluginManager.registerEvents(this, betterPvP);
+
     }
 
     @Override
@@ -70,12 +73,12 @@ public class BetterPvPNoPvPCommand extends BaseCommand implements Listener {
                 if (args[0].equalsIgnoreCase("on") && pvpEnabledForPlayer) {
                     String pvpReadyEnabled = betterPvP.getMainConfig().getString("pvp-already-enabled");
                     sender.sendMessage(ChatColorUtil.colorize(BetterPvP.prefix + " " + pvpReadyEnabled));
-                    player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1.0f, 1.0f);
+                    player.playSound(player.getLocation(), soundConfig.getSound("pvp-ready-enabled"), 1.0f, 1.0f);
                     return;
                 } else if (args[0].equalsIgnoreCase("off") && !pvpEnabledForPlayer) {
                     String pvpAlreadyDisabled = betterPvP.getMainConfig().getString("pvp-already-disabled");
                     sender.sendMessage(ChatColorUtil.colorize(BetterPvP.prefix + " " + pvpAlreadyDisabled));
-                    player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1.0f, 1.0f);
+                    player.playSound(player.getLocation(), soundConfig.getSound("pvp-already-disabled"), 1.0f, 1.0f);
                     return;
                 }
 
@@ -88,7 +91,7 @@ public class BetterPvPNoPvPCommand extends BaseCommand implements Listener {
                         String cooldownError = betterPvP.getMainConfig().getString("cooldown-error-message");
                         sender.sendMessage(ChatColorUtil.colorize(BetterPvP.prefix + " " + cooldownError));
 
-                        player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 1.0f, 0.5f);
+                        player.playSound(player.getLocation(), soundConfig.getSound("cooldown-error"), 1.0f, 1.0f);
                         return;
                     }
 
@@ -131,18 +134,18 @@ public class BetterPvPNoPvPCommand extends BaseCommand implements Listener {
                 pvpToggleMessage = pvpToggleMessage.replace("%bt-status%", args[0]);
 
                 sender.sendMessage(ChatColorUtil.colorize(BetterPvP.prefix + " " + pvpToggleMessage));
-                player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1.0f, 1.0f);
+                player.playSound(player.getLocation(), soundConfig.getSound("pvpToggle"), 1.0f, 1.0f);
 
                 String status = args[0].equalsIgnoreCase("on") ? "enabled" : "disabled";
                 String message = String.format("PvP %s by %s at %s", status, sender.getName(), LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
                 pvpChangeLog.add(message);
             } else {
                 sendNoPermissionMessage(sender);
-                player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_NO, 1.0f, 1.0f);
+                player.playSound(player.getLocation(), soundConfig.getSound("no-permission"), 1.0f, 1.0f);
             }
         } else {
             sender.sendMessage(ChatColorUtil.colorize(BetterPvP.prefix + " Usage: /pvp <on/off>"));
-            player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BASS, 1.0f, 0.5f);
+            player.playSound(player.getLocation(), soundConfig.getSound("incorrect-usage"), 1.0f, 1.0f);
         }
     }
 
