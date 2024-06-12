@@ -115,6 +115,17 @@ public class SoundConfig {
                 .collect(Collectors.toList());
     }
 
+    public void saveSound(final String path, final Sound sound) {
+        bukkitConfiguration.set(path, sound.name());
+        save();
+    }
+
+    public void saveSoundList(final String path, final List<Sound> sounds) {
+        List<String> soundNames = sounds.stream().map(Sound::name).collect(Collectors.toList());
+        bukkitConfiguration.set(path, soundNames);
+        save();
+    }
+
     /**
      * Carga la configuración desde el archivo.
      */
