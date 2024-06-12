@@ -13,3 +13,10 @@
 # ============================================================
 # |                        PvP toggle                        |
 # ============================================================
+
+pvpToggle: ENTITY_PLAYER_LEVELUP
+pvp-ready-enabled: ENTITY_PLAYER_LEVELUP
+pvp-already-disabled: ENTITY_VILLAGER_NO
+cooldown-error: BLOCK_ANVIL_LAND
+no-permission: ENTITY_VILLAGER_NO
+incorrect-usage: BLOCK_NOTE_BLOCK_BASS
