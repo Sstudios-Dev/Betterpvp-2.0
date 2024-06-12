@@ -1,18 +1,23 @@
-# ============================================================
-# |                    Sound Configuration                   |
-# ============================================================
+##########################################################
+#                                                        #
+#                SOUND CONFIGURATION                     #
+#                                                        #
+##########################################################
 
 # Welcome to the sound configuration file
-# If you find an error in this file for example that some sounds do not change even when you turn off the server please
-# report the error on the discord support server or via gmail or via an issue in the betterpvp GitHub repository.
+# If you find an error in this file, for example, that some sounds do not change even when you turn off the server, please
+# report the error on the Discord support server or via Gmail or via an issue in the BetterPvP GitHub repository.
 
 # Discord: https://discord.com/invite/F4YVQJQFqQ
 # Github issues: https://github.com/Sstudios-Dev/Betterpvp-2.0/issues
 # Gmail: sstudiosdev@gmail.com
 
-# ============================================================
-# |                        PvP toggle                        |
-# ============================================================
+# List of official Minecraft sounds you can use in the plugin:
+# https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Sound.html
+
+# --------------------------------------------------------
+# |                        PvP toggle
+# --------------------------------------------------------
 
 pvpToggle: ENTITY_PLAYER_LEVELUP
 pvp-ready-enabled: ENTITY_PLAYER_LEVELUP
@@ -20,3 +25,17 @@ pvp-already-disabled: ENTITY_VILLAGER_NO
 cooldown-error: BLOCK_ANVIL_LAND
 no-permission: ENTITY_VILLAGER_NO
 incorrect-usage: BLOCK_NOTE_BLOCK_BASS
+
+# --------------------------------------------------------
+# |                        Player Kills
+# --------------------------------------------------------
+
+money-reward: ENTITY_EXPERIENCE_ORB_PICKUP
+# More will be added in future updates
+
+# --------------------------------------------------------
+# |                        RespawnProtection
+# --------------------------------------------------------
+
+respawn-player: ENTITY_EXPERIENCE_ORB_PICKUP
+protection-attack: ENTITY_VILLAGER_NO

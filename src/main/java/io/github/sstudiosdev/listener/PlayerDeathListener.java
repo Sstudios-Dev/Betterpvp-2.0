@@ -2,6 +2,7 @@ package io.github.sstudiosdev.listener;
 
 import io.github.sstudiosdev.BetterPvP;
 import io.github.sstudiosdev.util.ChatColorUtil;
+import io.github.sstudiosdev.util.constructors.SoundConfig;
 import io.github.sstudiosdev.vault.economy.EconomyManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -14,6 +15,7 @@ public class PlayerDeathListener implements Listener {
     private double defaultReward;
     private String killMessage;
     private boolean rewardsEnabled;
+    private SoundConfig soundConfig = SoundConfig.getInstance();
 
     public PlayerDeathListener(BetterPvP betterPvP) {
         this.betterPvP = betterPvP;
@@ -61,6 +63,8 @@ public class PlayerDeathListener implements Listener {
             // Enviar un mensaje al jugador asesino sobre la recompensa
             String formattedMessage = killMessage.replace("%bt-give-Money%", String.valueOf(defaultReward));
             killer.sendMessage(ChatColorUtil.colorize(BetterPvP.prefix + " " + formattedMessage));
+
+            killer.playSound(killer.getLocation(), soundConfig.getSound("money-reward"), 1.0f, 1.0f);
         }
     }
 }

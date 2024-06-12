@@ -2,6 +2,7 @@ package io.github.sstudiosdev.listener;
 
 import io.github.sstudiosdev.BetterPvP;
 import io.github.sstudiosdev.util.ChatColorUtil;
+import io.github.sstudiosdev.util.constructors.SoundConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -20,6 +21,7 @@ public class RespawnProtectionListener implements Listener {
     private final Set<Player> playersWithRespawnProtection = new HashSet<>();
     private final JavaPlugin plugin;
     private final FileConfiguration config;
+    private SoundConfig soundConfig = SoundConfig.getInstance();
 
     public RespawnProtectionListener(JavaPlugin plugin) {
         this.plugin = plugin;
@@ -47,6 +49,7 @@ public class RespawnProtectionListener implements Listener {
             playersWithRespawnProtection.remove(player);
             String respawnMessage = ChatColorUtil.colorize(BetterPvP.prefix + " " + config.getString("respawn_message"));
             player.sendMessage(respawnMessage);
+            player.playSound(player.getLocation(), soundConfig.getSound("respawn-player"), 1.0f, 1.0f);
         }, duration * 20L); // Convert seconds to ticks
     }
 
@@ -58,6 +61,7 @@ public class RespawnProtectionListener implements Listener {
                 event.setCancelled(true);
                 String protectionMessage = ChatColorUtil.colorize(BetterPvP.prefix + " " + config.getString("protection_message"));
                 player.sendMessage(protectionMessage);
+                player.playSound(player.getLocation(), soundConfig.getSound("protection-attack"), 1.0f, 1.0f);
             }
         }
     }

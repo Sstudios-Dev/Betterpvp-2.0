@@ -24,6 +24,9 @@ public class SoundConfig {
     // Configuración de Bukkit asociada al archivo
     private final YamlConfiguration bukkitConfiguration;
 
+    @Getter
+    private static SoundConfig instance;
+
     /**
      * Constructor que inicializa el archivo y la configuración de Bukkit.
      *
@@ -31,6 +34,10 @@ public class SoundConfig {
      * @param fileName  Nombre del archivo de configuración (sin la extensión .yml).
      */
     public SoundConfig(final JavaPlugin plugin, final String fileName) {
+        if (instance == null) {
+            instance = this;
+        }
+
         this.file = initializeFile(plugin, fileName);
         this.bukkitConfiguration = YamlConfiguration.loadConfiguration(file);
     }
@@ -61,11 +68,11 @@ public class SoundConfig {
     }
 
     /**
-     * Verifica si la configuración contiene una clave específica.
-     *
-     * @param path  La clave a verificar.
-     * @return      true si la clave existe, false si no.
-     */
+         * Verifica si la configuración contiene una clave específica.
+         *
+         * @param path  La clave a verificar.
+         * @return      true si la clave existe, false si no.
+         */
     public boolean contains(final String path) {
         return bukkitConfiguration.contains(path);
     }

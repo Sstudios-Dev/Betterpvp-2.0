@@ -20,7 +20,7 @@
 prefix: "&8[&3BetterPvP&8]"
 load-license-file: true
 error-handler: true # It is recommended to have it activated
-version: 1.0.3 # Do not touch this part is handled by the version of the plugin with our api.
+version: 1.0.4 # Do not touch this part is handled by the version of the plugin with our api.
 
 # ============================================================
 # |                        Messages                          |
@@ -32,6 +32,7 @@ no-permission: "&cSorry, but you (%player_name%) do not have permission to execu
 onlyPlayers: "&cThis command can only be used by players"
 command-disabled-world: "&cThis command is disabled in this world, please wait for them to activate it"
 world-not-found: "&cError! The '%bt-world%' world was not found"
+dependency-error: "&cThis command requires the %plugin-dependency% plugin to work correctly."
 kill-reward: "&aYou have received %bt-give-Money% for killing a player!"
 pvptoggle: "&aPvP is now %bt-status%"
 pvp-history: "&aPvP Change History:"
@@ -86,8 +87,8 @@ player-kills:
 # this is one of the main modules of the plugins
 
 cooldown:
-  pvp-cooldown: 60
-  pvp-auto-enable-time: 300
+  pvp-cooldown: 300
+  pvp-auto-enable-time: 60
 
 tools:
   enable-pickup-event: true

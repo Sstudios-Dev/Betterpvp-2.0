@@ -31,7 +31,6 @@ import java.util.Map;
 
 public class BetterPvPNoPvPCommand extends BaseCommand implements Listener {
     private final BetterPvP betterPvP;
-    private SoundConfig soundConfig;
     private final Map<Player, Boolean> pvpStatus = new HashMap<>();
     private Map<Player, Long> cooldowns = new HashMap<>();
     private final List<String> pvpChangeLog = new ArrayList<>();
@@ -41,11 +40,11 @@ public class BetterPvPNoPvPCommand extends BaseCommand implements Listener {
     private final long pickupCooldownTime = 10000;
     private final Map<Player, Long> lastPickupMessageTime = new HashMap<>();
     private final Map<Player, BossBar> autoEnableBossBars = new HashMap<>();
+    private SoundConfig soundConfig = SoundConfig.getInstance();
 
     public BetterPvPNoPvPCommand(final BetterPvP betterPvP) {
         super("pvp", new ArrayList<>(), "betterpvp.pvp", true);
         this.betterPvP = betterPvP;
-        this.soundConfig = new SoundConfig(betterPvP, "sound");
 
         PluginManager pluginManager = betterPvP.getServer().getPluginManager();
         pluginManager.registerEvents(this, betterPvP);

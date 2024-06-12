@@ -44,7 +44,7 @@ public final class BetterPvP extends JavaPlugin {
     private String currentVersion;
     private String latestVersion;
 
-    private static final String PLUGIN_VERSION = "1.0.3";
+    private static final String PLUGIN_VERSION = "1.0.4";
 
     private static final List<String> incompatiblePlugins = Arrays.asList(
             "epicplugin-1.0",
@@ -172,7 +172,7 @@ public final class BetterPvP extends JavaPlugin {
      */
     private void displayConsoleInfo() {
         sendMessageToConsole("     &3_____");
-        sendMessageToConsole("   &3|   __  \\  &3BetterPvP &7v1.0.3-Stable       ");
+        sendMessageToConsole("   &3|   __  \\  &3BetterPvP &7v1.0.4-Stable       ");
         sendMessageToConsole("   &3|  |  | |  &7Running on Bukkit - Paper  ");
         sendMessageToConsole("   &3|  |___  |    &fPlugin by &3[srstaff_tv, sstudios, 1vcb, Updated by pichema and more]");
         sendMessageToConsole("   &3|  |__| |  ");
@@ -204,6 +204,7 @@ public final class BetterPvP extends JavaPlugin {
 
             latestVersion = response.toString().split("\"tag_name\":\"")[1].split("\",")[0];
 
+            // Notificar si hay una nueva versión disponible
             if (isNewVersionAvailable()) {
                 notifyPlayers();
             } else {
