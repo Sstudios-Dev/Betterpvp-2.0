@@ -31,6 +31,7 @@ incorrect-usage: BLOCK_NOTE_BLOCK_BASS
 # --------------------------------------------------------
 
 money-reward: ENTITY_EXPERIENCE_ORB_PICKUP
+self-kill: ENTITY_WITHER_DEATH
 # More will be added in future updates
 
 # --------------------------------------------------------
