@@ -132,7 +132,11 @@ pvpworld-disabled-worlds:
 
 respawn-protection:
   enabled: true
-  duration: 5 # time in seconds
+  duration: 20 # time in seconds
+  shield:
+    enabled: true
+  animation:
+    enabled: true
 
 # End Config.yml
 # Thank you pichema ❤
