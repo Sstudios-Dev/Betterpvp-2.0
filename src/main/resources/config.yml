@@ -34,6 +34,7 @@ command-disabled-world: "&cThis command is disabled in this world, please wait f
 world-not-found: "&cError! The '%bt-world%' world was not found"
 dependency-error: "&cThis command requires the %plugin-dependency% plugin to work correctly."
 kill-reward: "&aYou have received %bt-give-Money% for killing a player!"
+self-kill-message: "&cYou cannot receive the money because you were not killed by another player."
 pvptoggle: "&aPvP is now %bt-status%"
 pvp-history: "&aPvP Change History:"
 pvpworld-enabled: "&aPvP combat has been activated in the world %bt-world%"
