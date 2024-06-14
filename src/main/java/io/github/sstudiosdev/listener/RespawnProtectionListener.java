@@ -59,37 +59,44 @@ public class RespawnProtectionListener implements Listener {
         playersWithRespawnProtection.add(player); // Add player to set
         int duration = config.getInt("respawn-protection.duration", 5); // Get duration from config, default to 5 seconds
 
-        // Create Armor Stand with shield
-        ArmorStand armorStand = player.getWorld().spawn(player.getLocation().add(0, 0.75, 0), ArmorStand.class);
-        armorStand.setBasePlate(false);
-        armorStand.setMarker(true);
-        armorStand.setGravity(false);
-        armorStand.setVisible(false);
-        armorStand.setHelmet(new ItemStack(Material.SHIELD));
+        // Create Armor Stand if animation or shield is enabled
+        boolean isAnimationEnabled = config.getBoolean("respawn-protection.animation.enabled", true);
+        boolean isShieldEnabled = config.getBoolean("respawn-protection.shield.enabled", true);
 
-        // Set Armor Stand to stand pose
-        armorStand.setBodyPose(new EulerAngle(Math.toRadians(0), Math.toRadians(0), Math.toRadians(0)));
+        ArmorStand armorStand = null;
+        if (isAnimationEnabled || isShieldEnabled) {
+            armorStand = player.getWorld().spawn(player.getLocation().add(0, 0.75, 0), ArmorStand.class);
+            armorStand.setBasePlate(false);
+            armorStand.setMarker(true);
+            armorStand.setGravity(false);
+            armorStand.setVisible(false);
+            if (isShieldEnabled) {
+                armorStand.setHelmet(new ItemStack(Material.SHIELD));
+            }
+            protectionArmorStands.put(player, armorStand);
+        }
 
-        protectionArmorStands.put(player, armorStand);
-
-        // Run animation task
-        Bukkit.getScheduler().runTaskTimer(plugin, new Runnable() {
-            int tick = 0;
-            @Override
-            public void run() {
-                if (!playersWithRespawnProtection.contains(player)) {
-                    this.cancel();
-                    return;
+        // Run animation task if enabled
+        if (isAnimationEnabled && armorStand != null) {
+            ArmorStand finalArmorStand = armorStand;
+            Bukkit.getScheduler().runTaskTimer(plugin, new Runnable() {
+                int tick = 0;
+                @Override
+                public void run() {
+                    if (!playersWithRespawnProtection.contains(player)) {
+                        this.cancel();
+                        return;
+                    }
+                    tick++;
+                    double angle = Math.toRadians((tick * 10) % 360);
+                    finalArmorStand.setHeadPose(new EulerAngle(angle, angle, angle));
                 }
-                tick++;
-                double angle = Math.toRadians((tick * 10) % 360);
-                armorStand.setHeadPose(new EulerAngle(angle, angle, angle));
-            }
 
-            private void cancel() {
-                Bukkit.getScheduler().cancelTask(this.hashCode());
-            }
-        }, 0L, 1L);
+                private void cancel() {
+                    Bukkit.getScheduler().cancelTask(this.hashCode());
+                }
+            }, 0L, 1L);
+        }
 
         Bukkit.getScheduler().runTaskLater(plugin, () -> {
             playersWithRespawnProtection.remove(player);
