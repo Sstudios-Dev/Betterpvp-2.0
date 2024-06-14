@@ -23,13 +23,13 @@ jobs:
         sudo apt-get install -y jq
         TAG_NAME=$(echo $GITHUB_TAG | sed 's/refs\/tags\///')
         TAG_URL="https://github.com/$GITHUB_REPOSITORY/releases/tag/$TAG_NAME"
+        SPIGOT_URL="https://www.spigotmc.org/resources/betterpvp.116272/"
         DESCRIPTION=$(git for-each-ref refs/tags/$TAG_NAME --format='%(contents)')
-        PAYLOAD=$(jq -n --arg title "$TAG_NAME" --arg description "$DESCRIPTION" --arg url "$TAG_URL" '{
+        PAYLOAD=$(jq -n --arg title "$TAG_NAME" --arg description "$DESCRIPTION\n\n[View Release]($TAG_URL) | [Spigot]($SPIGOT_URL)" '{
           "embeds": [
             {
               "title": $title,
               "description": $description,
-              "url": $url,
               "color": 3447003
             }
           ]
@@ -40,7 +40,7 @@ jobs:
       env:
         DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
       run: |
-        PAYLOAD=$(jq -n --arg content "@everyone New tag created!" '{
+        PAYLOAD=$(jq -n --arg content "@everyone New version!" '{
           "content": $content
         }')
         curl -X POST -H "Content-Type: application/json" -d "$PAYLOAD" $DISCORD_WEBHOOK_URL
