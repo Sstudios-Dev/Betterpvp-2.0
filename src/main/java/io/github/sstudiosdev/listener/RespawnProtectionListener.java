@@ -67,13 +67,29 @@ public class RespawnProtectionListener implements Listener {
         armorStand.setVisible(false);
         armorStand.setHelmet(new ItemStack(Material.SHIELD));
 
-        // Add player as passenger
-        armorStand.addPassenger(player);
-
         // Set Armor Stand to stand pose
         armorStand.setBodyPose(new EulerAngle(Math.toRadians(0), Math.toRadians(0), Math.toRadians(0)));
 
         protectionArmorStands.put(player, armorStand);
+
+        // Run animation task
+        Bukkit.getScheduler().runTaskTimer(plugin, new Runnable() {
+            int tick = 0;
+            @Override
+            public void run() {
+                if (!playersWithRespawnProtection.contains(player)) {
+                    this.cancel();
+                    return;
+                }
+                tick++;
+                double angle = Math.toRadians((tick * 10) % 360);
+                armorStand.setHeadPose(new EulerAngle(angle, angle, angle));
+            }
+
+            private void cancel() {
+                Bukkit.getScheduler().cancelTask(this.hashCode());
+            }
+        }, 0L, 1L);
 
         Bukkit.getScheduler().runTaskLater(plugin, () -> {
             playersWithRespawnProtection.remove(player);
