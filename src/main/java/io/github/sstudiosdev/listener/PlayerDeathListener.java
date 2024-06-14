@@ -19,13 +19,11 @@ public class PlayerDeathListener implements Listener {
 
     public PlayerDeathListener(BetterPvP betterPvP) {
         this.betterPvP = betterPvP;
-
-        // Cargar configuración al inicializar el listener
         loadConfig();
     }
 
     /**
-     * Cargar la configuración relacionada con las recompensas por muerte de jugador.
+     * Load the configuration related to player death rewards.
      */
     private void loadConfig() {
         rewardsEnabled = betterPvP.getMainConfig().getBoolean("player-kills.enabled");
@@ -34,37 +32,47 @@ public class PlayerDeathListener implements Listener {
     }
 
     /**
-     * Maneja el evento de muerte de jugador.
+     * Handle the player death event.
      *
-     * @param event El evento de muerte del jugador.
+     * @param event The player death event.
      */
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event) {
-        // Verificar si las recompensas están habilitadas
+        // Verify if rewards are enabled
         if (!rewardsEnabled) {
             return;
         }
 
-        // Verificar si el causante de la muerte fue otro jugador
-        if (event.getEntity().getKiller() != null) {
-            Player killer = event.getEntity().getKiller();
+        // Verify if the cause of death was another player
+        Player killer = event.getEntity().getKiller();
+        if (killer != null) {
+            if (killer != event.getEntity()) {
+                // Verify if Vault integration is set up correctly
+                if (!betterPvP.getVaultHookManager().setupVaultEconomy()) {
+                    return;
+                }
 
-            // Verificar si la integración con Vault se ha configurado correctamente
-            if (!betterPvP.getVaultHookManager().setupVaultEconomy()) {
-                return;
+                // Get the Vault economy manager
+                final EconomyManager economyManager = betterPvP.getVaultHookManager().getEconomyManager();
+
+                // Deposit the reward into the killer's account
+                economyManager.depositMoney(killer, defaultReward);
+
+                // Send a message to the killer about the reward
+                if (killMessage != null) {
+                    String formattedMessage = killMessage.replace("%bt-give-Money%", String.valueOf(defaultReward));
+                    killer.sendMessage(ChatColorUtil.colorize(BetterPvP.prefix + " " + formattedMessage));
+                }
+
+                // Play the reward sound for the killer
+                killer.playSound(killer.getLocation(), soundConfig.getSound("money-reward"), 1.0f, 1.0f);
+            } else {
+                // The player killed themselves
+                String killError = betterPvP.getMainConfig().getString("self-kill-message");
+                killer.sendMessage(ChatColorUtil.colorize(BetterPvP.prefix + " " + killError));
+
+                killer.playSound(killer.getLocation(), soundConfig.getSound("self-kill"), 1.0f, 1.0f);
             }
-
-            // Obtener el gestor de economía de Vault
-            final EconomyManager economyManager = betterPvP.getVaultHookManager().getEconomyManager();
-
-            // Depositar la recompensa en la cuenta del jugador asesino
-            economyManager.depositMoney(killer, defaultReward);
-
-            // Enviar un mensaje al jugador asesino sobre la recompensa
-            String formattedMessage = killMessage.replace("%bt-give-Money%", String.valueOf(defaultReward));
-            killer.sendMessage(ChatColorUtil.colorize(BetterPvP.prefix + " " + formattedMessage));
-
-            killer.playSound(killer.getLocation(), soundConfig.getSound("money-reward"), 1.0f, 1.0f);
         }
     }
 }
