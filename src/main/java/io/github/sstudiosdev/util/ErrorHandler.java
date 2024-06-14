@@ -39,7 +39,9 @@ public class ErrorHandler implements Thread.UncaughtExceptionHandler {
     }
 
     private void logError(Throwable throwable) {
-        try {
+        try (FileWriter fw = new FileWriter(new File(plugin.getDataFolder(), "logs/error.log"), true);
+             PrintWriter pw = new PrintWriter(fw)) {
+
             // Create or append to the error log file in a 'logs' folder
             File logFolder = new File(plugin.getDataFolder(), "logs");
             if (!logFolder.exists()) {
@@ -52,8 +54,6 @@ public class ErrorHandler implements Thread.UncaughtExceptionHandler {
             }
 
             // Write the error details to the log file
-            FileWriter fw = new FileWriter(logFile, true);
-            PrintWriter pw = new PrintWriter(fw);
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String timestamp = sdf.format(new Date());
             pw.println("[" + timestamp + "] Unhandled exception in plugin " + plugin.getName());
@@ -76,7 +76,6 @@ public class ErrorHandler implements Thread.UncaughtExceptionHandler {
             }
 
             pw.println();
-            pw.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -85,16 +84,30 @@ public class ErrorHandler implements Thread.UncaughtExceptionHandler {
     private void notifyPlayers(Throwable throwable) {
         // Notify online players about the error
         String errorMessage = ChatColor.RED + "An unexpected error occurred in the plugin. Please contact the server administrator.";
+        String detailedErrorMessage = ChatColor.RED + "Error: " + throwable.getMessage();
+
         for (org.bukkit.entity.Player player : Bukkit.getOnlinePlayers()) {
             if (player.isOp()) {
                 player.sendMessage(errorMessage);
+                player.sendMessage(detailedErrorMessage);
+                for (StackTraceElement element : throwable.getStackTrace()) {
+                    player.sendMessage(ChatColor.RED + "  at " + element.getClassName() + "." + element.getMethodName() +
+                            "(" + element.getFileName() + ":" + element.getLineNumber() + ")");
+                }
+                // Include the cause of the throwable if it exists
+                Throwable cause = throwable.getCause();
+                if (cause != null) {
+                    player.sendMessage(ChatColor.RED + "Caused by: " + cause.toString());
+                    for (StackTraceElement element : cause.getStackTrace()) {
+                        player.sendMessage(ChatColor.RED + "  at " + element.getClassName() + "." + element.getMethodName() +
+                                "(" + element.getFileName() + ":" + element.getLineNumber() + ")");
+                    }
+                }
             }
         }
 
         // Log the error message to the console
         plugin.getLogger().severe(errorMessage);
-
-        // Log the stack trace to the console with more clarity
         plugin.getLogger().severe("Error message: " + throwable.getMessage());
         for (StackTraceElement element : throwable.getStackTrace()) {
             plugin.getLogger().severe("  at " + element.getClassName() + "." + element.getMethodName() +
