@@ -1,3 +1,7 @@
+//Please completely ignore all code and files located in the folder named “test”.
+// This folder contains tests and code that are no longer relevant to our current project and should 
+// not be considered in the development or review of our work.
+
 package com.example.colorname
 
 import org.bukkit.ChatColor
