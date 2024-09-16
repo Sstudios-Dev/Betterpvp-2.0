@@ -22,6 +22,7 @@ import java.io.*;
 import java.net.URL;
 import java.nio.file.Files;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
@@ -44,7 +45,7 @@ public final class BetterPvP extends JavaPlugin {
     private String currentVersion;
     private String latestVersion;
 
-    private static final String PLUGIN_VERSION = "1.0.5";
+    private static final String PLUGIN_VERSION = "1.0.6";
 
     private static final List<String> incompatiblePlugins = Arrays.asList(
             "epicplugin-1.0",
@@ -74,6 +75,7 @@ public final class BetterPvP extends JavaPlugin {
      */
     @Override
     public void onEnable() {
+
         // Load configurations
         loadConfigurations();
 
@@ -204,7 +206,6 @@ public final class BetterPvP extends JavaPlugin {
 
             latestVersion = response.toString().split("\"tag_name\":\"")[1].split("\",")[0];
 
-            // Notificar si hay una nueva versión disponible
             if (isNewVersionAvailable()) {
                 notifyPlayers();
             } else {
