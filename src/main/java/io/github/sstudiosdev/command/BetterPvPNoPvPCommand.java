@@ -54,7 +54,8 @@ public class BetterPvPNoPvPCommand extends BaseCommand implements Listener {
     @Override
     public void execute(CommandSender sender, String[] args) {
         if (!(sender instanceof Player)) {
-            sender.sendMessage("This command can only be used by players.");
+            String onlyPlayers = betterPvP.getMainConfig().getString("onlyPlayers");
+            sender.sendMessage(onlyPlayers);
             return;
         }
 
