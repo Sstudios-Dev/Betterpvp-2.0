@@ -172,7 +172,7 @@ public final class BetterPvP extends JavaPlugin {
      */
     private void displayConsoleInfo() {
         sendMessageToConsole("     &3_____");
-        sendMessageToConsole("   &3|   __  \\  &3BetterPvP &7v1.0.5-Stable       ");
+        sendMessageToConsole("   &3|   __  \\  &3BetterPvP &7v1.0.6-Stable       ");
         sendMessageToConsole("   &3|  |  | |  &7Running on Bukkit - Paper  ");
         sendMessageToConsole("   &3|  |___  |    &fPlugin by &3[srstaff_tv, sstudios, 1vcb, Updated by pichema and more]");
         sendMessageToConsole("   &3|  |__| |  ");
@@ -236,12 +236,15 @@ public final class BetterPvP extends JavaPlugin {
         File[] files = pluginFolder.listFiles();
         if (files != null) {
             for (File file : files) {
+                getLogger().info("Verifying plugin: " + file.getName());
                 if (file.isFile() && file.getName().endsWith(".jar")) {
                     String fileName = file.getName().replace(".jar", "");
                     if (incompatiblePlugins.contains(fileName)) {
-                        String message = prefix + " Warning! The plugin installed '" + fileName + "' is incompatible with BetterPvP.";
-                        notifyPlayers(message);
-                        getLogger().info(message);
+                        String incompatiblePlugins = mainConfig.getString("incompatible-plugins");
+                        incompatiblePlugins = incompatiblePlugins.replace("%plugin-incompatible%", fileName);
+
+                        notifyPlayers(incompatiblePlugins);
+                        getLogger().info(incompatiblePlugins);
                     }
                 }
             }
@@ -249,8 +252,14 @@ public final class BetterPvP extends JavaPlugin {
     }
 
     private void notifyPlayers(String message) {
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            player.sendMessage(message);
+        if (Bukkit.getOnlinePlayers().isEmpty()) {
+            getLogger().info(message);
+        } else {
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                if (player.isOp()) {
+                    player.sendMessage(message);
+                }
+            }
         }
     }
 
